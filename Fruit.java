@@ -1,9 +1,9 @@
-/*Tehtävägeneraattori Ville-ympäristöön.
- * Uudenvuodenaatto/joulukuusi binäärilukuharjoitus
+/*Tehtävägeneraattorin osa Ville-ympäristöön.
+ * Robotti ja hedelmät. Hedelmien kokoaminen pinoon.
  * Distributed under MIT licence.
  * MIT License
 
-Copyright (c) [2018] [Juhani Vähä-Mäkilä]
+Copyright (c) [2018] [Juhani Vähä-Mäkilä (juhani@fmail.co.uk)]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,29 +25,6 @@ SOFTWARE.
  */
 package com.example.villeprojekti;
 
-import java.io.File;
+public abstract class Fruit {
 
-public class Lamppu {
-private boolean on;
-private File kuva;
-
-public Lamppu(boolean status) {
-	on=status;
-	if (on) {
-		//tähän polku päällä olevaan lamppuun
-		setKuva(new File("../resources/light_on.jpeg"));
-	}else {
-		//tähän polku pois päältä olevaan lamppuun
-		setKuva(new File("../resources/light_off.jpeg"));
-		
-	}
-}
-
-public File getKuva() {
-	return kuva;
-}
-
-private void setKuva(File kuva) {
-	this.kuva = kuva;
-}
 }

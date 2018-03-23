@@ -45,10 +45,11 @@ public Vector<Vector<Boolean>> getBinarymatrix() {
 	}
 /**
  * 
- * @return
+ * @param ansver User specified asnver to the problem.
+ * @return True if ansver is correct. False otherwise.
  */
-	public boolean isRightAnswer(String answer) {
-		return answer.equals(year);
+	public boolean isRightAnswer(String ansver) {
+		return ansver.equals(year);
 	}
 /**
  * Creates a hashmap to map decimal numbers to binary numbers
