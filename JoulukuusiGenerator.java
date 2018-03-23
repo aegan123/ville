@@ -3,7 +3,7 @@
  * Distributed under MIT licence.
  * MIT License
 
-Copyright (c) [2018] [Juhani Vähä-Mäkilä]
+Copyright (c) [2018] [Juhani Vähä-Mäkilä (juhani@fmail.co.uk)]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -33,29 +33,22 @@ import java.util.Vector;
 public class JoulukuusiGenerator {
 	private static HashMap<String,boolean[]> MAP =createMap();
 	private static Random rnd=new Random();
-	private Vector<Vector<Boolean>> lamppumatriisi;
-	private String vuosiluku;
+	private Vector<Vector<Boolean>> binarymatrix;
+	private String year;
 
 	public JoulukuusiGenerator() {
-		vuosiluku=Integer.toString(rnd.nextInt((LocalDate.now().getYear()-1900))+1900);
-		setLamppumatriisi(createMatrix(vuosiluku));
+		year=Integer.toString(rnd.nextInt((LocalDate.now().getYear()-1900))+1900);
+		binarymatrix=createMatrix(year);
 	}
-public Vector<Vector<Boolean>> getLamppumatriisi() {
-		return lamppumatriisi;
+public Vector<Vector<Boolean>> getBinarymatrix() {
+		return binarymatrix;
 	}
-	public void setLamppumatriisi(Vector<Vector<Boolean>> lamppumatriisi) {
-		this.lamppumatriisi = lamppumatriisi;
-	}
-public String getVuosiluku() {
-	return this.vuosiluku;
-}
 /**
  * 
  * @return
  */
-	public boolean isRightAnswer() {
-		//TODO
-		return false;
+	public boolean isRightAnswer(String answer) {
+		return answer.equals(year);
 	}
 /**
  * Creates a hashmap to map decimal numbers to binary numbers
@@ -77,10 +70,10 @@ public String getVuosiluku() {
 		return temp;
 	}
 
-	private static Vector<Vector<Boolean>> createMatrix(String vuosiluku2) {
+	private static Vector<Vector<Boolean>> createMatrix(String year2) {
 		Vector<Vector<Boolean>> templist=new Vector<Vector<Boolean>>(4,0);
 		for(int i=0;i<4;i++) {
-			boolean[] luku=MAP.get(vuosiluku2.substring(i, i+1));
+			boolean[] luku=MAP.get(year2.substring(i, i+1));
 			Vector<Boolean> temp=new Vector<Boolean>(4,0);
 			for(int j=0;j<4;j++) {
 				temp.add(new Boolean(luku[j]));
