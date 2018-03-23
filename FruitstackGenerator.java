@@ -25,13 +25,14 @@ SOFTWARE.
  */
 package com.example.villeprojekti;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Random;
 import java.util.Vector;
 
 public class FruitstackGenerator {
-	private List<? extends List<Fruit>> fruitStacks;
-	private List<? extends Fruit> correctStack;
+	private static Random rnd=new Random();
+	private Collection<? extends Collection<Fruit>> fruitStacks;
+	private Collection<? extends Fruit> correctStack;
 	/**True==monivalintatehtävä, False==kasaa itse tehtävä. */
 	private boolean typeOfTask;
 	/**
@@ -40,7 +41,6 @@ public class FruitstackGenerator {
 	 */
 	public FruitstackGenerator(boolean b) {
 		typeOfTask=b;
-		Random rnd=new Random();
 		if(b) {
 			makeMultipleChoiceTask(rnd.nextInt(7)+2, 4);
 		}

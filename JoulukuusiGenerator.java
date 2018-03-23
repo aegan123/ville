@@ -26,14 +26,16 @@ SOFTWARE.
 package com.example.villeprojekti;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
 public class JoulukuusiGenerator {
-	private static HashMap<String,boolean[]> MAP =createMap();
+	private static Map<String,boolean[]> MAP =createMap();
 	private static Random rnd=new Random();
-	private Vector<Vector<Boolean>> binarymatrix;
+	private Collection<? extends Collection<? extends Object>> binarymatrix;
 	private String year;
 
 	public JoulukuusiGenerator() {
@@ -41,15 +43,15 @@ public class JoulukuusiGenerator {
 		binarymatrix=createMatrix(year);
 	}
 public Vector<Vector<Boolean>> getBinarymatrix() {
-		return binarymatrix;
+		return (Vector<Vector<Boolean>>) binarymatrix;
 	}
 /**
  * 
- * @param ansver User specified asnver to the problem.
- * @return True if ansver is correct. False otherwise.
+ * @param answer User specified answer to the problem.
+ * @return True if answer is correct. False otherwise.
  */
-	public boolean isRightAnswer(String ansver) {
-		return ansver.equals(year);
+	public boolean isRightAnswer(String answer) {
+		return answer.equals(year);
 	}
 /**
  * Creates a hashmap to map decimal numbers to binary numbers
@@ -71,7 +73,7 @@ public Vector<Vector<Boolean>> getBinarymatrix() {
 		return temp;
 	}
 
-	private static Vector<Vector<Boolean>> createMatrix(String year2) {
+	private static Collection<? extends Collection<? extends Object>> createMatrix(String year2) {
 		Vector<Vector<Boolean>> templist=new Vector<Vector<Boolean>>(4,0);
 		for(int i=0;i<4;i++) {
 			boolean[] luku=MAP.get(year2.substring(i, i+1));
