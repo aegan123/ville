@@ -25,10 +25,52 @@ SOFTWARE.
  */
 package com.example.villeprojekti;
 
+import java.io.File;
+import java.util.Vector;
+
 public class JoulukuusiVisual {
 	private JoulukuusiGenerator assigment;
+	private Vector<Vector<Lamppu>> lamps;
 	
 	public JoulukuusiVisual() {
 		assigment=new JoulukuusiGenerator();
+		setLamps();
 	}
+
+	private void setLamps() {
+		Vector<Vector<Boolean>> temp2=this.assigment.getBinarymatrix();
+		for(int i=0;i<4;i++) {
+			Vector<Lamppu> temp=new Vector<Lamppu>(4,0);
+			for(int j=0;j<4;j++) {
+				temp.add(new Lamppu(temp2.get(i).get(j).booleanValue()));
+			}
+			lamps.add(temp);
+		}
+		
+	}
+	class Lamppu {
+		private boolean on;
+		private File kuva;
+
+		public Lamppu(boolean status) {
+			on=status;
+			if (on) {
+				//tähän polku päällä olevaan lamppuun
+				setKuva(new File("../resources/light_on.jpeg"));
+			}else {
+				//tähän polku pois päältä olevaan lamppuun
+				setKuva(new File("../resources/light_off.jpeg"));
+				
+			}
+		}
+
+		public File getKuva() {
+			return kuva;
+		}
+
+		private void setKuva(File kuva) {
+			this.kuva = kuva;
+		}
+		}
+
 }
