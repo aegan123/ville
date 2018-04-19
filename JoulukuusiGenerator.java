@@ -32,6 +32,11 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
+/**
+ * 
+ * @author Juhani Vähä-Mäkilä
+ * @version 0.5
+ */
 public class JoulukuusiGenerator {
 	private static Map<String,boolean[]> MAP =createMap();
 	private static Random rnd=new Random();

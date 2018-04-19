@@ -28,12 +28,18 @@ package com.example.villeprojekti;
 import java.io.File;
 import java.util.Vector;
 
+/**
+ * 
+ * @author Juhani Vähä-Mäkilä
+ * @version 0.1
+ */
 public class JoulukuusiVisual {
 	private JoulukuusiGenerator assigment;
 	private Vector<Vector<Lamppu>> lamps;
 	
 	public JoulukuusiVisual() {
 		assigment=new JoulukuusiGenerator();
+		lamps=new Vector<Vector<Lamppu>>();
 		setLamps();
 	}
 
@@ -49,6 +55,8 @@ public class JoulukuusiVisual {
 		
 	}
 	class Lamppu {
+		//Picture source: https://commons.wikimedia.org/w/index.php?title=File:Simpleicons_Interface_light-bulb-outline.svg&oldid=189680700
+		//Licensed under CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/deed.en)
 		private boolean on;
 		private File kuva;
 
