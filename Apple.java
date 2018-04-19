@@ -23,21 +23,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
 package com.example.villeprojekti;
 
 import java.io.File;
 
-/**
- * Superclass for all types of fruits
- * @author Juhani Vähä-Mäkilä
- * @version 0.1
- *
- */
-public abstract class Fruit {
-	protected File pic;
-	
-	protected File getPic() {
-		return pic;
-	}
+final class Apple extends Fruit {
+	//private final String pic;
+
+public Apple() {
+	//TODO tähän svg kuva
+	pic=new File("../resources/apple.svg");
+}
 
 }
