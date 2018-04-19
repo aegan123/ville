@@ -52,13 +52,13 @@ public class FruitstackGenerator {
 	
 	/**
 	 * 
-	 * @param b True==monivalintatehtävä, False==kasaa itse tehtävä.
+	 * @param b True==multiple choice task, False==DIY task.
 	 */
-	public FruitstackGenerator(boolean b) {
+	public FruitstackGenerator(boolean b, int numOf) {
 		typeOfTask=b;
 		command=new StringBuilder();
 		if(b) {
-			makeMultipleChoiceTask(rnd.nextInt(7)+2, 4);
+			makeMultipleChoiceTask(rnd.nextInt(7)+2, numOf);
 		}
 		else {
 			makeDiyTask(rnd.nextInt(7)+2);
@@ -71,6 +71,9 @@ public class FruitstackGenerator {
 	public String getCommand() {
 		return command.toString();
 	}
+	public void resetCommand() {
+		command=new StringBuilder();
+	}
 	/**
 	 * 
 	 * @return
@@ -80,59 +83,68 @@ public class FruitstackGenerator {
 	}
 	/**
 	 * 
-	 * @param i
+	 * @param stackSize
 	 */
-	private void makeDiyTask(int i) {
+	private void makeDiyTask(int stackSize) {
 		// TODO Auto-generated method stub
+		correctStack=makeStack(stackSize, true);
 		
 	}
 /**
  * Makes a multiple choice task.
  * Creates the defined number of stacks including the correct answer stack.
- * @param size Stack size.
- * @param numOf How many stacks.
+ * @param stackSize Defines how many fruits there are per stack.
+ * @param numOf Defines how many stacks there are in total.
  */
-	private void makeMultipleChoiceTask(int size, int numOf) {
-		// TODO Auto-generated method stub
+	private void makeMultipleChoiceTask(int stackSize, int numOf) {
 		fruitStacks=new Vector<Vector<Fruit>>(numOf,0);
-		correctStack=makeCorrectStack(size, 0);
+		correctStack=makeStack(stackSize, true);
 
-		for(int i=1;i<numOf;i++) {
-			fruitStacks.add(new Vector<Fruit>(correctStack));
-			Collections.shuffle(fruitStacks.get(i-1));
+		//for(int i=1;i<numOf;i++) 
+		int i=1;
+		while(i<numOf){
+			Vector<Fruit> temp=makeStack(stackSize, false);
+			if(temp.equals(correctStack)) {
+				continue;
+			}
+			else {
+			fruitStacks.add(temp);
+			i++;
+			//Collections.shuffle(fruitStacks.get(i-1));
+			}
 		}
 		fruitStacks.add(new Vector<Fruit>(correctStack));
 		Collections.shuffle(fruitStacks);
 	}
 	
 	/**
-	 * 
-	 * @param size
-	 * @param numOf
+	 * Generates a random stack of fruits.
+	 * @param stackSize Size of stack.
+	 * @param correct True: make the correct answer stack, False: otherwise
 	 * @return
 	 */
-	public Vector<Fruit> makeCorrectStack(int size, int numOf){
-		Vector<Fruit> temp=new Vector<Fruit>(size,0);
-		for(int i=0;i<numOf;i++) {
+	public Vector<Fruit> makeStack(int stackSize, boolean correct){
+		Vector<Fruit> temp=new Vector<Fruit>(stackSize,0);
+		for(int i=0;i<stackSize;i++) {
 			int j=rnd.nextInt(fruitList.size());
 			switch(j) {
 			case(0):
-				correctStack.add(new Banana());
-				if(typeOfTask) {
+				temp.add(new Banana());
+				if(typeOfTask && correct) {
 					command.append("PUT "+fruitList.get(j));
 					command.append(" ");
 				}
 				break;
 			case(1):
-				correctStack.add(new Apple());
-				if(typeOfTask) {
+				temp.add(new Apple());
+				if(typeOfTask && correct) {
 					command.append("PUT "+fruitList.get(j));
 					command.append(" ");
 				}
 				break;
 			case(2):
-				correctStack.add(new Lemon());
-				if(typeOfTask) {
+				temp.add(new Lemon());
+				if(typeOfTask && correct) {
 					command.append("PUT "+fruitList.get(j));
 					command.append(" ");
 				}
