@@ -108,8 +108,8 @@ public class FruitstackGenerator {
 				continue;
 			}
 			else {
-			fruitStacks.add(temp);
-			i++;
+				fruitStacks.add(temp);
+				i++;
 			//Collections.shuffle(fruitStacks.get(i-1));
 			}
 		}
