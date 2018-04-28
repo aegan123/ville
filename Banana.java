@@ -27,9 +27,12 @@ SOFTWARE.
 package com.example.villeprojekti;
 
 import java.io.File;
-
+/**
+ * 
+ * @author Juhani Vähä-Mäkilä
+ * @version Final
+ */
 final class Banana extends Fruit {
-	//private final String pic;
 	
 	public Banana() {
 		//TODO tähän svg kuva

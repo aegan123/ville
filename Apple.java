@@ -27,9 +27,12 @@ SOFTWARE.
 package com.example.villeprojekti;
 
 import java.io.File;
-
+/**
+ * 
+ * @author Juhani Vähä-Mäkilä
+ * @version Final
+ */
 final class Apple extends Fruit {
-	//private final String pic;
 
 public Apple() {
 	//TODO tähän svg kuva

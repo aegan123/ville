@@ -38,29 +38,39 @@ import java.util.Vector;
  * @version 0.5
  */
 public class JoulukuusiGenerator {
-	private static Map<String,boolean[]> MAP =createMap();
 	private static Random rnd=new Random();
-	private Collection<? extends Collection<? extends Object>> binarymatrix;
+	/**Maps a "number" to boolean array.*/
+	private static Map<String,boolean[]> MAP =createMap();
+	/**Boolean matrix representing a year.*/
+	private Vector<Vector<Boolean>> binarymatrix;
+	/**Randomly generated year.*/
 	private String year;
-
+	/**
+	 * Constructs the problem by generating a random year and
+	 * the boolean matrix that represents it.
+	 */
 	public JoulukuusiGenerator() {
 		year=Integer.toString(rnd.nextInt((LocalDate.now().getYear()-1900))+1900);
 		binarymatrix=createMatrix(year);
 	}
-public Vector<Vector<Boolean>> getBinarymatrix() {
-		return (Vector<Vector<Boolean>>) binarymatrix;
+	/**
+	 * Returns the generated boolean matrix.
+	 * @return The generated boolean matrix.
+	 */
+	public Vector<Vector<Boolean>> getBinarymatrix() {
+		return binarymatrix;
 	}
 /**
- * 
+ * Checks if the answer is correct.
  * @param answer User specified answer to the problem.
  * @return True if answer is correct. False otherwise.
  */
 	public boolean isRightAnswer(String answer) {
-		return answer.equals(year);
+		return year.equals(answer.trim());
 	}
 /**
- * Creates a hashmap to map decimal numbers to binary numbers
- * in a boolean array.
+ * Creates a hashmap to map decimal numbers to 
+ * boolean array representing a binary digit.
  * @return
  */
 	private static HashMap<String, boolean[]> createMap() {
@@ -77,8 +87,12 @@ public Vector<Vector<Boolean>> getBinarymatrix() {
 		temp.put("9", new boolean[]{true,false,false,true});
 		return temp;
 	}
-
-	private static Collection<? extends Collection<? extends Object>> createMatrix(String year2) {
+	/**
+	 * Creates the boolean matrix representing binary digits of the randomly generated year.
+	 * @param year2 The year the matrix should represent.
+	 * @return Generated boolean matrix.
+	 */
+	private static Vector<Vector<Boolean>> createMatrix(String year2) {
 		Vector<Vector<Boolean>> templist=new Vector<Vector<Boolean>>(4,0);
 		for(int i=0;i<4;i++) {
 			boolean[] luku=MAP.get(year2.substring(i, i+1));

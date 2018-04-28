@@ -31,11 +31,15 @@ import java.io.File;
  * Superclass for all types of fruits
  * @author Juhani Vähä-Mäkilä
  * @version 0.1
- *
  */
 public abstract class Fruit {
+	/**Picture of the fruit.*/
 	protected File pic;
 	
+	/**
+	 * Returns the File object representing the fruit.
+	 * @return File object representing the fruit.
+	 */
 	protected File getPic() {
 		return pic;
 	}

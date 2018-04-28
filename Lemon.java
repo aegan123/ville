@@ -27,7 +27,11 @@ SOFTWARE.
 package com.example.villeprojekti;
 
 import java.io.File;
-
+/**
+ * 
+ * @author Juhani Vähä-Mäkilä
+ * @version Final
+ */
 final class Lemon extends Fruit {
 
 	public Lemon() {

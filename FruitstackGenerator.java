@@ -23,6 +23,7 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
  */
+
 package com.example.villeprojekti;
 
 import java.util.Collection;
@@ -39,15 +40,15 @@ import java.util.Vector;
  */
 public class FruitstackGenerator {
 	private static Random rnd=new Random();
-	/**All stacks of fruits including correct stack. */
+	/**All stacks of fruits including correct stack.*/
 	private Vector<Vector<Fruit>> fruitStacks;
-	/**The correct answer stack. */
+	/**The correct answer stack.*/
 	private Vector<Fruit> correctStack;
-	/**True==multiple choice task, False==DIY task. */
+	/**True==multiple choice task, False==DIY task.*/
 	private boolean typeOfTask;
-	/**Command string to show user to make a guess from. */
+	/**Command string to show user to make a guess from.*/
 	private StringBuilder command;
-	/**List of all known fruits */
+	/**List of all known fruits*/
 	private final static Map<Integer,String> fruitList=createMap();
 	
 	/**
@@ -65,8 +66,8 @@ public class FruitstackGenerator {
 		}
 	}
 	/**
-	 * 
-	 * @return
+	 * Returns the string representing the command the robot used.
+	 * @return The string representing the command the robot used.
 	 */
 	public String getCommand() {
 		return command.toString();
@@ -75,15 +76,15 @@ public class FruitstackGenerator {
 		command=new StringBuilder();
 	}
 	/**
-	 * 
-	 * @return
+	 * Returns the type of the task.
+	 * @return True==multiple choice task, False==DIY task.
 	 */
 	public boolean getTypeOfTask() {
 		return typeOfTask;
 	}
 	/**
-	 * 
-	 * @param stackSize
+	 * Generates a DIY task.
+	 * @param stackSize Defines how many fruits there are per stack.
 	 */
 	private void makeDiyTask(int stackSize) {
 		// TODO Auto-generated method stub
@@ -91,7 +92,7 @@ public class FruitstackGenerator {
 		
 	}
 /**
- * Makes a multiple choice task.
+ * Generates a multiple choice task.
  * Creates the defined number of stacks including the correct answer stack.
  * @param stackSize Defines how many fruits there are per stack.
  * @param numOf Defines how many stacks there are in total.
@@ -123,7 +124,7 @@ public class FruitstackGenerator {
 	 * @param correct True: make the correct answer stack, False: otherwise
 	 * @return
 	 */
-	public Vector<Fruit> makeStack(int stackSize, boolean correct){
+	private Vector<Fruit> makeStack(int stackSize, boolean correct){
 		Vector<Fruit> temp=new Vector<Fruit>(stackSize,0);
 		for(int i=0;i<stackSize;i++) {
 			int j=rnd.nextInt(fruitList.size());
@@ -157,9 +158,9 @@ public class FruitstackGenerator {
 	}
 	
 	/**
-	 * 
-	 * @param answer
-	 * @return
+	 * Checks if answer is correct.
+	 * @param answer User inputed answer.
+	 * @return True/False
 	 */
 	public boolean isRightAnswer(Collection<Fruit> answer) {
 		return correctStack.equals(answer);
