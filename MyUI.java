@@ -31,7 +31,7 @@ public class MyUI extends UI {
     protected void init(VaadinRequest vaadinRequest) {
         final VerticalLayout layout = new VerticalLayout();
         
-        final TextField name = new TextField();
+        /*final TextField name = new TextField();
         name.setCaption("Type your name here:");
 
         Button button = new Button("Click Me");
@@ -39,8 +39,17 @@ public class MyUI extends UI {
             layout.addComponent(new Label("Thanks " + name.getValue() 
                     + ", it works!"));
         });
-        
-        layout.addComponents(name, button);
+        */
+        //layout.addComponents(name, button);
+        JoulukuusiGenerator kuusi=new JoulukuusiGenerator();
+        Label label=new Label(kuusi.getBinarymatrix().toString());
+        TextField text=new TextField();
+        text.setCaption("Your answer:");
+        Button button=new Button("Check answer.");
+        button.addClickListener( e -> {
+            layout.addComponent(new Label(kuusi.isRightAnswer(text.getValue())+""));
+        });
+        layout.addComponents(label,text,button);
         layout.setMargin(true);
         layout.setSpacing(true);
         
