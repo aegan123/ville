@@ -37,7 +37,7 @@ public class JoulukuusiVisual {
 	/**The actual problem. */
 	private JoulukuusiGenerator assigment;
 	/**Background picture (=the Christmas tree). */
-	private static final File bgPic=new File("../resources/christmas_tree.svg");
+	private static final File bgPic=setBgPic();
 	/**A matrix of lamps based on the actual assignment. */
 	private Vector<Vector<Lamppu>> lamps;
 	/**
@@ -63,6 +63,12 @@ public class JoulukuusiVisual {
 		}
 		
 	}
+	private static File setBgPic() {
+		//Picture source: http://www.freestockphotos.biz/stockphoto/12624
+		//Public Domain: http://creativecommons.org/publicdomain/zero/1.0/
+		return new File("../resources/christmas_tree.svg");
+		
+	}
 	/**
 	 * Checks if the answer is correct.
 	 * @param answer User inputed answer.
@@ -79,6 +85,9 @@ public class JoulukuusiVisual {
 		return bgPic;
 	}
 
+	public Lamppu getLamppu(int i, int j) {
+		return lamps.get(i).get(j);
+	}
 	/**
 	 * Represents the lamps needed for visualizing.
 	 * @author Juhani Vähä-Mäkilä
