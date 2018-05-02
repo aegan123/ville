@@ -33,7 +33,7 @@ import java.util.Vector;
 
 /**
  * 
- * @author Juhani Vähä-Mäkilä
+ * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
  * @version 0.5
  */
 public class JoulukuusiGenerator {
@@ -59,6 +59,9 @@ public class JoulukuusiGenerator {
 	public Vector<Vector<Boolean>> getBinarymatrix() {
 		return binarymatrix;
 	}
+	public boolean isOn(int i, int j) {
+		return binarymatrix.get(i).get(j).booleanValue();
+	}
 /**
  * Checks if the answer is correct.
  * @param answer User specified answer to the problem.
@@ -69,7 +72,7 @@ public class JoulukuusiGenerator {
 	}
 /**
  * Creates a hashmap to map decimal numbers to 
- * boolean array representing a binary digit.
+ * boolean array representing a them as binary.
  * @return
  */
 	private static HashMap<String, boolean[]> createMap() {

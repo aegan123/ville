@@ -29,7 +29,7 @@ package com.example.villeprojekti;
 import java.io.File;
 /**
  * 
- * @author Juhani Vähä-Mäkilä
+ * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
  * @version Final
  */
 final class Banana extends Fruit {

@@ -35,8 +35,8 @@ import java.util.Vector;
 
 /**
  * Robot and Fruit stacks task generator.
- * @author Juhani Vähä-Mäkilä
- * @version 0.1
+ * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
+ * @version 0.3
  */
 public class FruitstackGenerator {
 	private static Random rnd=new Random();
@@ -46,17 +46,22 @@ public class FruitstackGenerator {
 	private Vector<Fruit> correctStack;
 	/**True==multiple choice task, False==DIY task.*/
 	private boolean typeOfTask;
+	/**True==get command is active. False otherwise. */
+	private boolean get;
 	/**Command string to show user to make a guess from.*/
 	private StringBuilder command;
 	/**List of all known fruits*/
 	private final static Map<Integer,String> fruitList=createMap();
 	
 	/**
-	 * 
+	 * Construct a new randomized assignment. Type is defined by parameters.
 	 * @param b True==multiple choice task, False==DIY task.
+	 * @param numOf Number of stacks  wanted.
+	 * @param get True, if get command  is activated. False otherwise.
 	 */
-	public FruitstackGenerator(boolean b, int numOf) {
+	public FruitstackGenerator(boolean b, int numOf, boolean get) {
 		typeOfTask=b;
+		this.get=get;
 		command=new StringBuilder();
 		if(b) {
 			makeMultipleChoiceTask(rnd.nextInt(7)+2, numOf);
@@ -94,8 +99,8 @@ public class FruitstackGenerator {
 /**
  * Generates a multiple choice task.
  * Creates the defined number of stacks including the correct answer stack.
- * @param stackSize Defines how many fruits there are per stack.
- * @param numOf Defines how many stacks there are in total.
+ * @param stackSize Fruits per stack.
+ * @param numOf Total number of stacks.
  */
 	private void makeMultipleChoiceTask(int stackSize, int numOf) {
 		fruitStacks=new Vector<Vector<Fruit>>(numOf,0);
@@ -120,9 +125,10 @@ public class FruitstackGenerator {
 	
 	/**
 	 * Generates a random stack of fruits.
+	 * Also generates the "command line" for the multiple choice task.
 	 * @param stackSize Size of stack.
 	 * @param correct True: make the correct answer stack, False: otherwise
-	 * @return
+	 * @return A stack of fruits.
 	 */
 	private Vector<Fruit> makeStack(int stackSize, boolean correct){
 		Vector<Fruit> temp=new Vector<Fruit>(stackSize,0);
@@ -132,7 +138,12 @@ public class FruitstackGenerator {
 			case(0):
 				temp.add(new Banana());
 				if(typeOfTask && correct) {
+					if(get) {
+						command.append("GET "+fruitList.get(j));
+					}
+					else {
 					command.append("PUT "+fruitList.get(j));
+					}
 					command.append(" ");
 				}
 				break;
@@ -146,7 +157,12 @@ public class FruitstackGenerator {
 			case(2):
 				temp.add(new Lemon());
 				if(typeOfTask && correct) {
+					if(get) {
+						command.append("GET "+fruitList.get(j));
+					}
+					else {
 					command.append("PUT "+fruitList.get(j));
+					}
 					command.append(" ");
 				}
 				break;

@@ -30,7 +30,7 @@ import java.util.Vector;
 
 /**
  * Class representing the visual aspect of the assignment.
- * @author Juhani Vähä-Mäkilä
+ * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
  * @version 0.1
  */
 public class JoulukuusiVisual {

@@ -29,7 +29,7 @@ import java.io.File;
 
 /**
  * Superclass for all types of fruits
- * @author Juhani Vähä-Mäkilä
+ * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
  * @version 0.1
  */
 public abstract class Fruit {
