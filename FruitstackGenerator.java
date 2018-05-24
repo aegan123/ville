@@ -71,6 +71,22 @@ public class FruitstackGenerator {
 		}
 	}
 	/**
+	 * Returns the specified fruits string to picture.
+	 * @param i Index of vector of stacks.
+	 * @param j Index of fruit in a stack.
+	 * @return String to picture of the fruit requested.
+	 */
+	public String getPic(int i,int j){
+		return 	fruitStacks.get(i).get(j).getPic();
+	}
+	/**
+	 * Returns the size of the fruit stack.
+	 * @return The size of a fruit stack.
+	 */
+	public int getSize() {
+		return correctStack.size();
+	}
+	/**
 	 * Returns the string representing the command the robot used.
 	 * @return The string representing the command the robot used.
 	 */
