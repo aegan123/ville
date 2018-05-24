@@ -34,6 +34,7 @@ import com.vaadin.ui.VerticalLayout;
 public class MyUI extends UI {
 	private Canvas canvas;
 	private JoulukuusiGenerator kuusi;
+	private String baseurl="https://liquid-moon.pw/utu/";
 	private  String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 	private TextField text1=new TextField();
 	private TextField text2=new TextField();
@@ -139,7 +140,7 @@ public class MyUI extends UI {
         //canvas.fillRect(10, 10, 200, 200);
         //String[] urls=genUrls(kuusi);
         //String[]urls= {basepath+"/WEB-INF/images/light_off.svg",basepath+"/WEB-INF/images/light_on.svg"};
-        String[]urls= {"https://liquid-moon.pw/utu/light_off.svg","https://liquid-moon.pw/utu/light_on.svg"};
+        String[]urls= {baseurl+"light_off.svg",baseurl+"light_on.svg"};
 		canvas.loadImages(urls);
 		canvas.addImageLoadListener(new CanvasImageLoadListener() {
 			
