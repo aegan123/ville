@@ -26,7 +26,6 @@ SOFTWARE.
 
 package com.example.villeprojekti;
 
-import java.io.File;
 /**
  * 
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
@@ -35,7 +34,8 @@ import java.io.File;
 final class Lemon extends Fruit {
 
 	public Lemon() {
-		//TODO tähän svg kuva
-		pic=new File("../resources/lemon.svg");
+		//source: http://www.freestockphotos.biz/stockphoto/15911
+		//Public Domain pic
+		pic="lemon.svg";
 	}
 }

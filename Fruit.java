@@ -25,8 +25,6 @@ SOFTWARE.
  */
 package com.example.villeprojekti;
 
-import java.io.File;
-
 /**
  * Superclass for all types of fruits
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
@@ -34,13 +32,13 @@ import java.io.File;
  */
 public abstract class Fruit {
 	/**Picture of the fruit.*/
-	protected File pic;
+	protected String pic;
 	
 	/**
 	 * Returns the File object representing the fruit.
 	 * @return File object representing the fruit.
 	 */
-	protected File getPic() {
+	protected String getPic() {
 		return pic;
 	}
 

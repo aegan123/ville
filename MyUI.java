@@ -140,6 +140,9 @@ public class MyUI extends UI {
         //canvas.fillRect(10, 10, 200, 200);
         //String[] urls=genUrls(kuusi);
         //String[]urls= {basepath+"/WEB-INF/images/light_off.svg",basepath+"/WEB-INF/images/light_on.svg"};
+		
+		//Picture source: https://commons.wikimedia.org/w/index.php?title=File:Simpleicons_Interface_light-bulb-outline.svg&oldid=189680700
+		//Licensed under CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/deed.en)
         String[]urls= {baseurl+"light_off.svg",baseurl+"light_on.svg"};
 		canvas.loadImages(urls);
 		canvas.addImageLoadListener(new CanvasImageLoadListener() {

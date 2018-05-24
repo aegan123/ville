@@ -26,7 +26,6 @@ SOFTWARE.
 
 package com.example.villeprojekti;
 
-import java.io.File;
 /**
  * 
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
@@ -35,7 +34,8 @@ import java.io.File;
 final class Banana extends Fruit {
 	
 	public Banana() {
-		//TODO tähän svg kuva
-		pic=new File("../resources/banana.svg");
+		//source: http://www.freestockphotos.biz/stockphoto/15912
+		//Public Domain pic
+		pic="banana.svg";
 	}
 }

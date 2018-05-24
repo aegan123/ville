@@ -26,7 +26,6 @@ SOFTWARE.
 
 package com.example.villeprojekti;
 
-import java.io.File;
 /**
  * 
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
@@ -35,8 +34,9 @@ import java.io.File;
 final class Apple extends Fruit {
 
 public Apple() {
-	//TODO tähän svg kuva
-	pic=new File("../resources/apple.svg");
+	//source: http://www.freestockphotos.biz/stockphoto/11391
+	//Public Domain picture
+	pic="apple.svg";
 }
 
 }
