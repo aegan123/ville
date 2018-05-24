@@ -1,7 +1,5 @@
 package com.example.villeprojekti;
 
-import java.io.File;
-
 import javax.servlet.annotation.WebServlet;
 
 import org.vaadin.hezamu.canvas.Canvas;
@@ -9,15 +7,10 @@ import org.vaadin.hezamu.canvas.Canvas.CanvasImageLoadListener;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.server.FileResource;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.server.VaadinService;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
 import com.vaadin.ui.Label;
-import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
@@ -34,7 +27,7 @@ import com.vaadin.ui.VerticalLayout;
 public class FruitUi extends UI {
 	private Canvas canvas;
 	private FruitstackGenerator stack;
-	private  String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
+	//private String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
 	private String baseurl="https://liquid-moon.pw/utu/";
 	
 
@@ -125,7 +118,8 @@ public class FruitUi extends UI {
         
 		//content.addComponent(canvas = new Canvas());
 		canvas=new Canvas();
-		canvas.setHeight(64*4+10, Unit.PIXELS);
+		canvas.setHeight(400*stack.getSize()+10, Unit.PIXELS);
+		canvas.setWidth(500, Unit.PIXELS);
 		HorizontalLayout hlayout=new HorizontalLayout();
 
         //canvas.fillRect(10, 10, 200, 200);
@@ -137,21 +131,11 @@ public class FruitUi extends UI {
 			
 			@Override
 			public void imagesLoaded() {
-				//kuva on 64x64px
+				//kuva on 400x400px
 				double x=0.0, y=0.0;
-				for(int i=0;i<4;i++) {
-					for(int j=0;j<4;j++) {
-						if(kuusi.isOn(i, j)) {
-							canvas.drawImage1(urls[1], x, y);
-							x+=65;
-						}
-						else {
-							canvas.drawImage1(urls[0], x,y);
-							x+=65;
-						}
-					}
-					x=0.0;
-					y+=65;
+				for(int i=0;i<stack.getSize();i++) {
+					canvas.drawImage1(baseurl+stack.getPic(0, i), x, y);
+					y+=400;
 				}
 				//canvas.drawImage1(urls[0], 0.0, 0.0);
 				//canvas.drawImage1(urls[1], 65.0, 0.0);
@@ -159,44 +143,21 @@ public class FruitUi extends UI {
 
 			
 		});
+		/*
 		VerticalLayout layout=new VerticalLayout();
 		  Button button=new Button("Check answer.");
 	        button.addClickListener( e -> {
 	            layout.addComponent(new Label(Boolean.toString(kuusi.isRightAnswer(text1.getValue()+text2.getValue()+text3.getValue()+text4.getValue()))));
 	        });
 		layout.addComponents(text1,text2,text3,text4,button);
-		hlayout.addComponents(canvas,layout);
+		*/
+		hlayout.addComponents(new Label(stack.getCommand()),canvas);
 		//content.addComponents(hlayout,layout);
 		setContent(hlayout);
 		
 	}
-	private void addImg(HorizontalLayout layout, int i, JoulukuusiGenerator kuusi) {
-        FileResource resource=null;
-        Image image=null;
-        	for(int j=0;j<4;j++) {
-        			if(kuusi.isOn(i, j)) {
-        					resource = new FileResource(new File(basepath + "/WEB-INF/images/light_on.svg"));
-        			}
-        			else {
-        					resource = new FileResource(new File(basepath + "/WEB-INF/images/light_off.svg"));
-        			}
-         image = new Image("", resource);
-         image.setHeight(50, Unit.PERCENTAGE);
-         image.setWidth(50, Unit.PERCENTAGE);
-         layout.addComponent(image);
-        }
-	}
-    /*   private String[] genUrls(JoulukuusiGenerator kuusi) {
-		ArrayList<String> temp=new ArrayList<String>();
-		for(int i=0;i<4;i++) {
-			for(int j=0;j<4;j++) {
-				temp.add(kuusi.getLamppu(i, j).toString().substring(2));
-			}
-		}
-		return temp.toArray(new String[temp.size()]);
-		}
-*/
-	@WebServlet(urlPatterns = "/fruit", name = "FruitStack", asyncSupported = true)
+
+	@WebServlet(urlPatterns = "/*", name = "FruitStack", asyncSupported = true)
     @VaadinServletConfiguration(ui = FruitUi.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
 
