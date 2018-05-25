@@ -26,7 +26,6 @@ SOFTWARE.
 
 package com.example.villeprojekti;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -194,8 +193,8 @@ public class FruitstackGenerator {
 	 * @param answer User inputed answer.
 	 * @return True/False
 	 */
-	public boolean isRightAnswer(Collection<Fruit> answer) {
-		return correctStack.equals(answer);
+	public boolean isRightAnswer(int answer) {
+		return correctStack.equals(fruitStacks.get(answer));
 		
 	}
 	/**
