@@ -9,6 +9,7 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
@@ -25,10 +26,12 @@ import com.vaadin.ui.VerticalLayout;
  */
 @Theme("mytheme")
 public class FruitUi extends UI {
+	/** "html5" canvas to draw images to.  */
 	private Canvas canvas;
+	/** The generated assignment. */
 	private FruitstackGenerator stack;
-	//private String basepath = VaadinService.getCurrent().getBaseDirectory().getAbsolutePath();
-	private String baseurl="https://liquid-moon.pw/utu/";
+	/**Base url to load pictures from. Actual filename will be appended to it later. */
+	private final String baseurl="https://liquid-moon.pw/utu/";
 	
 
     /**Foobar yolo! :D	 */
@@ -36,112 +39,31 @@ public class FruitUi extends UI {
 
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
-		initFruit();
-
-		/*
-        content.setExpandRatio(layout1, 1);
-        final TextField name = new TextField();
-        name.setCaption("Type your name here:");
-
-        Button button = new Button("Click Me");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label("Thanks " + name.getValue() 
-                    + ", it works!"));
-        });
-        
-        //layout.addComponents(name, button);
-        JoulukuusiGenerator kuusi=new JoulukuusiGenerator();
-        Label label=new Label(kuusi.getBinarymatrix().toString());
-        TextField text=new TextField();
-        text.setCaption("Your answer:");
-        Button button=new Button("Check answer.");
-        button.addClickListener( e -> {
-            layout.addComponent(new Label(Boolean.toString(kuusi.isRightAnswer(text.getValue()))));
-        });
-        layout.addComponents(label,text,button);
-        layout.setMargin(true);
-        layout.setSpacing(true);
-        
-        
-        
-
-        //foobar(layout,kuusi);
-        //Image image2 = new Image("", resource2);
-
-        //layout.addComponents(image,image2);
-*/
-    }
-	private void initFruit() {
 		stack=new FruitstackGenerator(true,4,false);
+		if(stack.getTypeOfTask())	initFruit();
+		else initDYIFruit();
+    }
+	
+	private void initDYIFruit() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void initFruit() {
 		VerticalLayout content=new VerticalLayout();
-		/*
-		String[]urls={basepath + "/WEB-INF/images/light_on.svg",basepath + "/WEB-INF/images/light_off.svg",basepath + "/WEB-INF/images/christmas_tree.svg"};
-		//String[]urls={"localhost:8081/WEB-INF/images/light_on.svg","localhost:8081/WEB-INF/images/light_off.svg","localhost:8081/WEB-INF/images/christmas_tree.svg"};
-		setContent(content);
-        HorizontalLayout layout1 = new HorizontalLayout();
-        HorizontalLayout layout2 = new HorizontalLayout();
-        HorizontalLayout layout3 = new HorizontalLayout();
-        HorizontalLayout layout4 = new HorizontalLayout();
-        HorizontalLayout layout5 = new HorizontalLayout();
-        layout1.setSizeFull();
-        layout2.setSizeFull();
-        layout3.setSizeFull();
-        layout4.setSizeFull();
-        //Table table=new Table("Foobar");
-        //table.addItem(new Label[] {new Label("0"),new Label("0000")}, null);
-        //table.setSizeFull();
-        //content.addComponents(new Label("0: 0000"),new Label("1: 0001"),new Label("2: 0010"),new Label("3: 0011"),new Label("4: 0100"),new Label("5: 0101"),new Label("6: 0110"),new Label("7: 0111"),new Label("8: 1000"),new Label("9: 1001"));
-        //content.addComponent(table);
-        layout5.setCaption("<table><tr><th>Decimal</th><th>Binary</th></tr><tr><td>0</td><td>0000</td></tr></table>");
-        layout5.setCaptionAsHtml(true);
-        content.addComponent(layout5);
-        //content.addComponent(new Label(basepath));
-       addImg(layout1,0,kuusi);
-        layout1.addComponent(text1);
-        content.addComponent(layout1);
-        addImg(layout2,1, kuusi);
-        layout2.addComponent(text2);
-        content.addComponent(layout2);
-        addImg(layout3,2, kuusi);
-        layout3.addComponent(text3);
-        content.addComponent(layout3);
-        addImg(layout4,3, kuusi);
-        layout4.addComponent(text4);
-        content.addComponent(layout4);
-        
-        Button button=new Button("Check answer.");
-        button.addClickListener( e -> {
-            content.addComponent(new Label(Boolean.toString(kuusi.isRightAnswer(text1.getValue()+text2.getValue()+text3.getValue()+text4.getValue()))));
-        });
-        content.addComponent(button);
-        */
-        
 		//content.addComponent(canvas = new Canvas());
 		canvas=new Canvas();
-		canvas.setHeight(400*stack.getSize()+10, Unit.PIXELS);
+		canvas.setHeight(50*stack.getSize()+10, Unit.PIXELS);
 		canvas.setWidth(500, Unit.PIXELS);
 		HorizontalLayout hlayout=new HorizontalLayout();
-
-        //canvas.fillRect(10, 10, 200, 200);
-        //String[] urls=genUrls(kuusi);
-        //String[]urls= {basepath+"/WEB-INF/images/light_off.svg",basepath+"/WEB-INF/images/light_on.svg"};
         String[]urls= {baseurl+"banana.svg",baseurl+"apple.svg",baseurl+"lemon.svg"};
 		canvas.loadImages(urls);
 		canvas.addImageLoadListener(new CanvasImageLoadListener() {
 			
 			@Override
 			public void imagesLoaded() {
-				//kuva on 400x400px
-				double x=0.0, y=0.0;
-				for(int i=0;i<stack.getSize();i++) {
-					canvas.drawImage1(baseurl+stack.getPic(0, i), x, y);
-					y+=400;
+				drawImg();
 				}
-				//canvas.drawImage1(urls[0], 0.0, 0.0);
-				//canvas.drawImage1(urls[1], 65.0, 0.0);
-				}
-
-			
 		});
 		/*
 		VerticalLayout layout=new VerticalLayout();
@@ -151,9 +73,42 @@ public class FruitUi extends UI {
 	        });
 		layout.addComponents(text1,text2,text3,text4,button);
 		*/
-		hlayout.addComponents(new Label(stack.getCommand()),canvas);
-		//content.addComponents(hlayout,layout);
-		setContent(hlayout);
+		Button button1=new Button("1");
+		button1.addClickListener( e -> {
+           content.addComponent(new Label("1: "+Boolean.toString(stack.isRightAnswer(0))));
+        });
+		Button button2=new Button("2");
+		button2.addClickListener( e -> {
+           content.addComponent(new Label("2: "+Boolean.toString(stack.isRightAnswer(1))));
+        });
+		Button button3=new Button("3");
+		button3.addClickListener( e -> {
+           content.addComponent(new Label("3: "+Boolean.toString(stack.isRightAnswer(2))));
+        });
+		Button button4=new Button("4");
+		button4.addClickListener( e -> {
+           content.addComponent(new Label("4: "+Boolean.toString(stack.isRightAnswer(3))));
+        });
+		hlayout.addComponents(button1,button2,button3,button4);
+		content.addComponents(new Label(stack.getCommand()),canvas,hlayout);
+		setContent(content);
+		
+	}
+	/**
+	 * Actually draws the images to canvas after they have been preloaded by the browser.
+	 * Called by CanvasImageLoadListener.
+	 */
+	private void drawImg() {
+		//kuva on 400x400px
+		double x=0.0, y=0.0;
+		for(int i=0;i<4;i++) {
+			for(int j=stack.getSize();j>0;j--) {
+			canvas.drawImage2(baseurl+stack.getPic(i, j-1), x, y,50.0,50.0);
+			y+=50;
+			}
+			y=0;
+			x+=50;
+		}
 		
 	}
 
