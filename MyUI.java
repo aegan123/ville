@@ -62,6 +62,7 @@ public class MyUI extends UI {
 	private VerticalLayout mainContent,fruitcontent,content;
 	private HorizontalLayout kuusiContent;
 	private TextField text1,text2,text3,text4;
+	private double x,y=0.0;
 	
 
     /**Foobar yolo! :D	 */
@@ -72,7 +73,8 @@ public class MyUI extends UI {
 	mainContent=new VerticalLayout();
 	HorizontalLayout buttons=new HorizontalLayout();
 	Button joulukuusi=new Button("Joulukuusi");
-	Button fruit=new Button("Hedelmäpino");
+	Button fruit=new Button("Hedelmäpino, monivalinta");
+	Button fruit2=new Button("Hedelmäpino, DIY");
 	Button empty=new Button("Tyhjennä");
 	empty.addClickListener( e -> {
 	       reset();
@@ -81,9 +83,12 @@ public class MyUI extends UI {
        initKuusi();
      });
 	fruit.addClickListener( e -> {
-        initFruit();
+		initMultiFruit();
      });
-	buttons.addComponents(joulukuusi,fruit,empty);
+	fruit2.addClickListener( e -> {
+		initDIYFruit();
+     });
+	buttons.addComponents(joulukuusi,fruit,fruit2,empty);
 	content=new VerticalLayout();
 	mainContent.addComponents(buttons,content);
 	setContent(mainContent);
@@ -101,24 +106,15 @@ public class MyUI extends UI {
 				
 			}
 	}
-/**
- * Initializes fruit stack ui.
- * For demo purposes only.
- */
-	private void initFruit() {
-		reset();
-		stack=new FruitstackGenerator(true,4,false);
-		if(stack.getTypeOfTask())	initMultiFruit();
-		else initDIYFruit();
-	}
+	/**
+	 * Initiates DIY fruitstack visualization.
+	 * For demo purposes only.
+	 */
 	private void initDIYFruit() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void initMultiFruit() {
+		reset();
+		stack=new FruitstackGenerator(false,4,false);
+		y=50.0*stack.getSize()-50.0;
 		fruitcontent=new VerticalLayout();
-		//content.addComponent(canvas = new Canvas());
 		canvas=new Canvas();
 		canvas.setHeight(50*stack.getSize()+10, Unit.PIXELS);
 		canvas.setWidth(500, Unit.PIXELS);
@@ -129,7 +125,69 @@ public class MyUI extends UI {
 			
 			@Override
 			public void imagesLoaded() {
-				drawImg();
+				//kuva on 400x400px
+				double x=0.0, y=0.0;
+					for(int j=stack.getSize();j>0;j--) {
+					canvas.drawImage2(baseurl+stack.getPic(0, j-1), x, y,50.0,50.0);
+					y+=50;
+					}
+				}
+				
+		});
+		Button button1=new Button("PUT Apple");
+		button1.addClickListener( e -> {
+           stack.addAnswer("PUT Apple ");
+           canvas.drawImage2(baseurl+"apple.svg", 50.0, y,50.0,50.0);
+           y-=50.0;
+        });
+		Button button2=new Button("PUT Banana");
+		button2.addClickListener( e -> {
+			 stack.addAnswer("PUT Banana ");
+			 canvas.drawImage2(baseurl+"banana.svg", 50.0, y,50.0,50.0);
+			 y-=50.0;
+        });
+		Button button3=new Button("PUT Lemon");
+		button3.addClickListener( e -> {
+			 stack.addAnswer("PUT Lemon ");
+			 canvas.drawImage2(baseurl+"lemon.svg", 50.0, y,50.0,50.0);
+			 y-=50.0;
+        });
+		Button button4=new Button("Tarkista");
+		button4.addClickListener( e -> {
+           fruitcontent.addComponent(new Label(Boolean.toString(stack.isRightAnswer())));
+        });
+		hlayout.addComponents(button1,button2,button3,button4);
+		fruitcontent.addComponents(canvas,hlayout);
+		content.addComponent(fruitcontent);
+	}
+	/**
+	 * Initiates multiple choice fruitstack visualization.
+	 * For demo purposes only.
+	 */
+	private void initMultiFruit() {
+		reset();
+		stack=new FruitstackGenerator(true,4,false);
+		fruitcontent=new VerticalLayout();
+		canvas=new Canvas();
+		canvas.setHeight(50*stack.getSize()+10, Unit.PIXELS);
+		canvas.setWidth(500, Unit.PIXELS);
+		HorizontalLayout hlayout=new HorizontalLayout();
+        String[]urls= {baseurl+"banana.svg",baseurl+"apple.svg",baseurl+"lemon.svg"};
+		canvas.loadImages(urls);
+		canvas.addImageLoadListener(new CanvasImageLoadListener() {
+			
+			@Override
+			public void imagesLoaded() {
+				//kuva on 400x400px
+				double x=0.0, y=0.0;
+				for(int i=0;i<4;i++) {
+					for(int j=stack.getSize();j>0;j--) {
+					canvas.drawImage2(baseurl+stack.getPic(i, j-1), x, y,50.0,50.0);
+					y+=50;
+					}
+					y=0;
+					x+=50;
+				}
 				}
 		});
 		Button button1=new Button("1");
@@ -150,7 +208,6 @@ public class MyUI extends UI {
         });
 		hlayout.addComponents(button1,button2,button3,button4);
 		fruitcontent.addComponents(new Label(stack.getCommand()),canvas,hlayout);
-		//setContent(fruitcontent);
 		content.addComponent(fruitcontent);
 		
 	}
