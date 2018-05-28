@@ -49,6 +49,8 @@ public class FruitstackGenerator {
 	private boolean get;
 	/**Command string to show user to make a guess from.*/
 	private StringBuilder command;
+	/**User inputed command line for DIY task.	 */
+	private StringBuilder answerCommand;
 	/**List of all known fruits*/
 	private final static Map<Integer,String> fruitList=createMap();
 	
@@ -103,12 +105,21 @@ public class FruitstackGenerator {
 		return typeOfTask;
 	}
 	/**
+	 * Adds an answer string from DIY task.
+	 * @param answer String to add.
+	 */
+	public void addAnswer(String answer) {
+		answerCommand.append(answer);
+	}
+	/**
 	 * Generates a DIY task.
 	 * @param stackSize Defines how many fruits there are per stack.
 	 */
 	private void makeDiyTask(int stackSize) {
-		// TODO Auto-generated method stub
 		correctStack=makeStack(stackSize, true);
+		answerCommand=new StringBuilder();
+		fruitStacks=new Vector<Vector<Fruit>>(1,0);
+		fruitStacks.add(new Vector<Fruit>(correctStack));
 		
 	}
 /**
@@ -152,7 +163,7 @@ public class FruitstackGenerator {
 			switch(j) {
 			case(0):
 				temp.add(new Banana());
-				if(typeOfTask && correct) {
+				if(correct) {
 					if(get) {
 						command.append("GET "+fruitList.get(j));
 					}
@@ -164,14 +175,14 @@ public class FruitstackGenerator {
 				break;
 			case(1):
 				temp.add(new Apple());
-				if(typeOfTask && correct) {
+				if( correct) {
 					command.append("PUT "+fruitList.get(j));
 					command.append(" ");
 				}
 				break;
 			case(2):
 				temp.add(new Lemon());
-				if(typeOfTask && correct) {
+				if(correct) {
 					if(get) {
 						command.append("GET "+fruitList.get(j));
 					}
@@ -189,13 +200,19 @@ public class FruitstackGenerator {
 	}
 	
 	/**
-	 * Checks if answer is correct.
+	 * Checks if answer is correct, Multiple choice task version.
 	 * @param answer User inputed answer.
 	 * @return True/False
 	 */
 	public boolean isRightAnswer(int answer) {
 		return correctStack.equals(fruitStacks.get(answer));
-		
+	}
+	/**
+	 * Checks if answer is correct, DIY task version.
+	 * @return True/False
+	 */
+	public boolean isRightAnswer() {
+		return command.toString().equals(answerCommand.toString());
 	}
 	/**
 	 * 
