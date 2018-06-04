@@ -34,12 +34,12 @@ import java.util.Vector;
 /**
  * 
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
- * @version 0.5
+ * @version 1.0
  */
 public class JoulukuusiGenerator {
 	private static Random rnd=new Random();
 	/**Maps a "number" to boolean array.*/
-	private static Map<String,boolean[]> MAP =createMap();
+	private static Map<Character, boolean[]> MAP =createMap();
 	/**Boolean matrix representing a year.*/
 	private Vector<Vector<Boolean>> binarymatrix;
 	/**Randomly generated year.*/
@@ -52,13 +52,12 @@ public class JoulukuusiGenerator {
 		year=Integer.toString(rnd.nextInt((LocalDate.now().getYear()-1900))+1900);
 		binarymatrix=createMatrix(year);
 	}
-	/**
-	 * Returns the generated boolean matrix.
-	 * @return The generated boolean matrix.
-	 */
-	public Vector<Vector<Boolean>> getBinarymatrix() {
-		return binarymatrix;
-	}
+/**
+ * Returns True/False whether the specified lamp should be on or not.
+ * @param i Row number.
+ * @param j Column number.
+ * @return True/False whether the specified lamp should be on or not.
+ */
 	public boolean isOn(int i, int j) {
 		return binarymatrix.get(i).get(j).booleanValue();
 	}
@@ -72,21 +71,21 @@ public class JoulukuusiGenerator {
 	}
 /**
  * Creates a hashmap to map decimal numbers to 
- * boolean array representing a them as binary.
- * @return
+ * boolean array representing them as binary.
+ * @return Generated map.
  */
-	private static HashMap<String, boolean[]> createMap() {
-		HashMap<String, boolean[]> temp=new HashMap<String,boolean[]>();
-		temp.put("0", new boolean[]{false,false,false,false});
-		temp.put("1", new boolean[]{false,false,false,true});
-		temp.put("2", new boolean[]{false,false,true,false});
-		temp.put("3", new boolean[]{false,false,true,true});
-		temp.put("4", new boolean[]{false,true,false,false});
-		temp.put("5", new boolean[]{false,true,false,true});
-		temp.put("6", new boolean[]{false,true,true,false});
-		temp.put("7", new boolean[]{false,true,true,true});
-		temp.put("8", new boolean[]{true,false,false,false});
-		temp.put("9", new boolean[]{true,false,false,true});
+	private static HashMap<Character, boolean[]> createMap() {
+		HashMap<Character, boolean[]> temp=new HashMap<Character,boolean[]>();
+		temp.put('0', new boolean[]{false,false,false,false});
+		temp.put('1', new boolean[]{false,false,false,true});
+		temp.put('2', new boolean[]{false,false,true,false});
+		temp.put('3', new boolean[]{false,false,true,true});
+		temp.put('4', new boolean[]{false,true,false,false});
+		temp.put('5', new boolean[]{false,true,false,true});
+		temp.put('6', new boolean[]{false,true,true,false});
+		temp.put('7', new boolean[]{false,true,true,true});
+		temp.put('8', new boolean[]{true,false,false,false});
+		temp.put('9', new boolean[]{true,false,false,true});
 		return temp;
 	}
 	/**
@@ -97,7 +96,8 @@ public class JoulukuusiGenerator {
 	private static Vector<Vector<Boolean>> createMatrix(String year2) {
 		Vector<Vector<Boolean>> templist=new Vector<Vector<Boolean>>(4,0);
 		for(int i=0;i<4;i++) {
-			boolean[] luku=MAP.get(year2.substring(i, i+1));
+			//boolean[] luku=MAP.get(year2.substring(i, i+1));
+			boolean[] luku=MAP.get(year2.charAt(i));
 			Vector<Boolean> temp=new Vector<Boolean>(4,0);
 			for(int j=0;j<4;j++) {
 				temp.add(new Boolean(luku[j]));

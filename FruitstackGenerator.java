@@ -35,7 +35,7 @@ import java.util.Vector;
 /**
  * Robot and Fruit stacks task generator.
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
- * @version 0.3
+ * @version 0.7
  */
 public class FruitstackGenerator {
 	private static Random rnd=new Random();
