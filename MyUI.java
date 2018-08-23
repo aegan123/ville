@@ -25,6 +25,10 @@ SOFTWARE.
  */
 package com.example.villeprojekti;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+
 import javax.servlet.annotation.WebServlet;
 
 import org.vaadin.hezamu.canvas.Canvas;
@@ -63,6 +67,8 @@ public class MyUI extends UI {
 	private HorizontalLayout kuusiContent;
 	private TextField text1,text2,text3,text4;
 	private double x,y=0.0;
+	private List<String> fuitDYIGetAnswer;
+	private Vector<Fruit> diygetanswer;
 	
 
     /**Foobar yolo! :D	 */
@@ -75,6 +81,7 @@ public class MyUI extends UI {
 	Button joulukuusi=new Button("Joulukuusi");
 	Button fruit=new Button("Hedelmäpino, monivalinta");
 	Button fruit2=new Button("Hedelmäpino, DIY");
+	Button fruit3=new Button("Hedelmäpino, DIY + GET");
 	Button empty=new Button("Tyhjennä");
 	empty.addClickListener( e -> {
 	       reset();
@@ -88,11 +95,15 @@ public class MyUI extends UI {
 	fruit2.addClickListener( e -> {
 		initDIYFruit();
      });
-	buttons.addComponents(joulukuusi,fruit,fruit2,empty);
+	fruit3.addClickListener( e -> {
+		initDIYFruitGet();
+     });
+	buttons.addComponents(joulukuusi,fruit,fruit2,fruit3,empty);
 	content=new VerticalLayout();
 	mainContent.addComponents(buttons,content);
 	setContent(mainContent);
     }
+
 	/**
 	 * Resets components in main view.
 	 * For demo purposes only.
@@ -105,6 +116,76 @@ public class MyUI extends UI {
 			catch(NullPointerException e) {
 				
 			}
+	}
+	/**
+	 * Initiates DIY fruitstack + GET visualization.
+	 * For demo purposes only.
+	 */
+	private void initDIYFruitGet() {
+		reset();
+		fuitDYIGetAnswer=new Vector<String>();
+		diygetanswer=new Vector<Fruit>();
+		stack=new FruitstackGenerator(false,4,false);
+		y=50.0*stack.getSize()-50.0;
+		fruitcontent=new VerticalLayout();
+		canvas=new Canvas();
+		canvas.setHeight(50*stack.getSize()+10, Unit.PIXELS);
+		canvas.setWidth(500, Unit.PIXELS);
+		HorizontalLayout hlayout=new HorizontalLayout();
+		HorizontalLayout hlayout2=new HorizontalLayout();
+        String[]urls= {baseurl+"banana.svg",baseurl+"apple.svg",baseurl+"lemon.svg"};
+		canvas.loadImages(urls);
+		canvas.addImageLoadListener(new CanvasImageLoadListener() {
+			
+			@Override
+			public void imagesLoaded() {
+				//kuva on 400x400px
+				double x=0.0, y=0.0;
+					for(int j=stack.getSize();j>0;j--) {
+					canvas.drawImage2(baseurl+stack.getPic(0, j-1), x, y,50.0,50.0);
+					y+=50;
+					}
+				}
+				
+		});
+		Button button5=new Button("PUT Apple");
+		button5.addClickListener( e -> {
+			//fuitDYIGetAnswer.add("PUT Apple ");
+			diygetanswer.add(new Apple());
+           canvas.drawImage2(baseurl+"apple.svg", 50.0, y,50.0,50.0);
+           y-=50.0;
+        });
+		Button button6=new Button("PUT Banana");
+		button6.addClickListener( e -> {
+			//fuitDYIGetAnswer.add("PUT Banana ");
+			diygetanswer.add(new Banana());
+			 canvas.drawImage2(baseurl+"banana.svg", 50.0, y,50.0,50.0);
+			 y-=50.0;
+        });
+		Button button7=new Button("PUT Lemon");
+		button7.addClickListener( e -> {
+			//fuitDYIGetAnswer.add("PUT Lemon ");
+			diygetanswer.add(new Lemon());
+			 canvas.drawImage2(baseurl+"lemon.svg", 50.0, y,50.0,50.0);
+			 y-=50.0;
+       });
+		Button button8=new Button("Tarkista");
+		button8.addClickListener( e -> {
+			/*for(int i=0;i<fuitDYIGetAnswer.size();i++) {
+				stack.addAnswer(fuitDYIGetAnswer.get(i));
+			}*/
+           fruitcontent.addComponent(new Label(Boolean.toString(stack.isRightAnswer(diygetanswer))));
+        });
+		Button button9=new Button("GET");
+		button5.addClickListener( e -> {
+			diygetanswer.remove(diygetanswer.size()-1);
+			//canvas.markAsDirty();
+        });
+		hlayout.addComponents(button5,button6,button7,button8);
+		hlayout2.addComponents(button9);
+		fruitcontent.addComponents(canvas,hlayout,hlayout2);
+		content.addComponent(fruitcontent);
+		
 	}
 	/**
 	 * Initiates DIY fruitstack visualization.
@@ -276,12 +357,17 @@ public class MyUI extends UI {
 		kuusiContent.addComponents(canvas,layout);
 		content.addComponent(kuusiContent);
 	}
-
+/*
 	@WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
 
-		/** */
+		
 		private static final long serialVersionUID = 1L;
+    }
+*/
+    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = false)
+    @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
+    public static class MyUIServlet extends VaadinServlet {
     }
 }

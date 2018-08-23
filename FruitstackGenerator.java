@@ -28,6 +28,7 @@ package com.example.villeprojekti;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
@@ -213,6 +214,10 @@ public class FruitstackGenerator {
 	 */
 	public boolean isRightAnswer() {
 		return command.toString().equals(answerCommand.toString());
+	}
+	
+	public boolean isRightAnswer(Vector<Fruit> answer) {
+		return correctStack.equals(answer);
 	}
 	/**
 	 * 
