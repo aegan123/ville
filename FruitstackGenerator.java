@@ -31,18 +31,17 @@ package com.example.villeprojekti;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
 /**
  * Robot and Fruit stacks task generator.
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
- * @version 0.7
+ * @version 1.0
  */
 public class FruitstackGenerator {
 	private static Random rnd=new Random();
-	/**All stacks of fruits including correct stack.*/
+	/**All stacks of fruits including the correct stack.*/
 	private Vector<Vector<Fruit>> fruitStacks;
 	/**The correct answer stack.*/
 	private Vector<Fruit> correctStack;
@@ -55,7 +54,7 @@ public class FruitstackGenerator {
 	/**User inputed command line for DIY+get task.	 */
 	private List<String> answerGetCommand;
 	/**List of all known fruits*/
-	private final static Map<Integer,String> fruitList=createMap();
+//	private final static Map<Integer,String> fruitList=createMap();
 	
 	/**
 	 * Construct a new randomized multiple choice assignment.
@@ -113,12 +112,12 @@ public class FruitstackGenerator {
 	/**
 	* Removes the last element from user supplied
 	* answer after using the GET command.
+	* Does nothing if get-command is not active.
 	*/
 	public void usedGet(){
-//		if(get){
+		if(get){
 			answerGetCommand.remove(answerGetCommand.size()-1);
-//		}
-//		else{}
+		}
 	}
 	
 	//*****************************
@@ -178,7 +177,6 @@ public class FruitstackGenerator {
 		fruitStacks=new Vector<Vector<Fruit>>(numOf,0);
 		correctStack=makeStack(stackSize, true);
 
-		//for(int i=1;i<numOf;i++) 
 		int i=1;
 		while(i<numOf){
 			Vector<Fruit> temp=makeStack(stackSize, false);
@@ -188,7 +186,6 @@ public class FruitstackGenerator {
 			else {
 				fruitStacks.add(temp);
 				i++;
-			//Collections.shuffle(fruitStacks.get(i-1));
 			}
 		}
 		fruitStacks.add(new Vector<Fruit>(correctStack));
@@ -205,27 +202,29 @@ public class FruitstackGenerator {
 	private Vector<Fruit> makeStack(int stackSize, boolean correct){
 		Vector<Fruit> temp=new Vector<Fruit>(stackSize,0);
 		for(int i=0;i<stackSize;i++) {
-			int j=rnd.nextInt(fruitList.size());
+			//int j=rnd.nextInt(fruitList.size());
+			
+			//Random num to choose fruit with.
+			int j=rnd.nextInt(3);
 			switch(j) {
 			case(0):
 				temp.add(new Banana());
 				if(correct) {
-					//TODO vai olisiko (PUT Banana ) ??
-					command.append("PUT "+fruitList.get(j));
+					command.append("PUT Banana");
 					command.append(" ");
 					}
 				break;
 			case(1):
 				temp.add(new Apple());
 				if( correct) {
-					command.append("PUT "+fruitList.get(j));
+					command.append("PUT Apple");
 					command.append(" ");
 				}
 				break;
 			case(2):
 				temp.add(new Lemon());
 				if(correct) {
-					command.append("PUT "+fruitList.get(j));
+					command.append("PUT Lemon");
 					command.append(" ");
 					}
 				break;
@@ -237,6 +236,7 @@ public class FruitstackGenerator {
 	}
 	/**
 	 * HashMap to map numbers to fruits.
+	 * Not used.
 	 * @return
 	 */
 	private static HashMap<Integer, String> createMap() {
