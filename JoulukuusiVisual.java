@@ -47,12 +47,12 @@ public class JoulukuusiVisual {
 	public JoulukuusiVisual() {
 		assigment=new JoulukuusiGenerator();
 		lamps=new Vector<Vector<Lamppu>>();
-		setLamps();
+//		setLamps();
 	}
 	/**
 	 * Sets lamps to match the binarymatrix of the assignment.
 	 */
-	private void setLamps() {
+/*	private void setLamps() {
 		Vector<Vector<Boolean>> temp2=this.assigment.getBinarymatrix();
 		for(int i=0;i<4;i++) {
 			Vector<Lamppu> temp=new Vector<Lamppu>(4,0);
@@ -63,6 +63,7 @@ public class JoulukuusiVisual {
 		}
 		
 	}
+	*/
 	private static File setBgPic() {
 		//Picture source: http://www.freestockphotos.biz/stockphoto/12624
 		//Public Domain: http://creativecommons.org/publicdomain/zero/1.0/

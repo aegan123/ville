@@ -22,12 +22,10 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Except as contained in this notice, the name(s) of the above copyright holders shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Software without prior written authorization. 
  */
 package com.example.villeprojekti;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -61,19 +59,24 @@ public class MyUI extends UI {
 	/** The generated assignment. */
 	private FruitstackGenerator stack;
 	private JoulukuusiGenerator kuusi;
-	/**Base url to load pictures from. Actual filename will be appended to it later. */
+	/**Base url to load pictures from. Actual filename will be appended to it later. 
+	 * Change this to correct value or don't use it. */
 	private final static String baseurl="https://liquid-moon.pw/utu/";
+	/** Layout components used.	 */
 	private VerticalLayout mainContent,fruitcontent,content;
 	private HorizontalLayout kuusiContent;
+	/** Input fields used in binary number exercise. */
 	private TextField text1,text2,text3,text4;
-	private double x,y=0.0;
-	private List<String> fuitDYIGetAnswer;
-	private Vector<Fruit> diygetanswer;
+	/** y-coordinate of canvas used in fruit stack drawing. */
+	private double y=0.0;
 	
 
     /**Foobar yolo! :D	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Creates the base layout with buttons for different exercises.
+	 */
 	@Override
     protected void init(VaadinRequest vaadinRequest) {
 	mainContent=new VerticalLayout();
@@ -113,7 +116,7 @@ public class MyUI extends UI {
 			content.removeAllComponents();
 			canvas.clear();
 			}
-			catch(NullPointerException e) {
+		catch(NullPointerException e) {
 				
 			}
 	}
@@ -123,9 +126,7 @@ public class MyUI extends UI {
 	 */
 	private void initDIYFruitGet() {
 		reset();
-		fuitDYIGetAnswer=new Vector<String>();
-		diygetanswer=new Vector<Fruit>();
-		stack=new FruitstackGenerator(false,4,false);
+		stack=new FruitstackGenerator(true);
 		y=50.0*stack.getSize()-50.0;
 		fruitcontent=new VerticalLayout();
 		canvas=new Canvas();
@@ -142,7 +143,7 @@ public class MyUI extends UI {
 				//kuva on 400x400px
 				double x=0.0, y=0.0;
 					for(int j=stack.getSize();j>0;j--) {
-					canvas.drawImage2(baseurl+stack.getPic(0, j-1), x, y,50.0,50.0);
+					canvas.drawImage2(baseurl+stack.getPicture(0, j-1), x, y,50.0,50.0);
 					y+=50;
 					}
 				}
@@ -150,36 +151,30 @@ public class MyUI extends UI {
 		});
 		Button button5=new Button("PUT Apple");
 		button5.addClickListener( e -> {
-			//fuitDYIGetAnswer.add("PUT Apple ");
-			diygetanswer.add(new Apple());
-           canvas.drawImage2(baseurl+"apple.svg", 50.0, y,50.0,50.0);
-           y-=50.0;
+			stack.addAnswer("PUT Apple ");
+			canvas.drawImage2(baseurl+"apple.svg", 50.0, y,50.0,50.0);
+			y-=50.0;
         });
 		Button button6=new Button("PUT Banana");
 		button6.addClickListener( e -> {
-			//fuitDYIGetAnswer.add("PUT Banana ");
-			diygetanswer.add(new Banana());
-			 canvas.drawImage2(baseurl+"banana.svg", 50.0, y,50.0,50.0);
+			stack.addAnswer("PUT Banana ");
+			canvas.drawImage2(baseurl+"banana.svg", 50.0, y,50.0,50.0);
 			 y-=50.0;
         });
 		Button button7=new Button("PUT Lemon");
 		button7.addClickListener( e -> {
-			//fuitDYIGetAnswer.add("PUT Lemon ");
-			diygetanswer.add(new Lemon());
+			stack.addAnswer("PUT Lemon ");
 			 canvas.drawImage2(baseurl+"lemon.svg", 50.0, y,50.0,50.0);
 			 y-=50.0;
        });
 		Button button8=new Button("Tarkista");
 		button8.addClickListener( e -> {
-			/*for(int i=0;i<fuitDYIGetAnswer.size();i++) {
-				stack.addAnswer(fuitDYIGetAnswer.get(i));
-			}*/
-           fruitcontent.addComponent(new Label(Boolean.toString(stack.isRightAnswer(diygetanswer))));
+           fruitcontent.addComponent(new Label(Boolean.toString(stack.isRightAnswer())));
         });
-		Button button9=new Button("GET");
-		button5.addClickListener( e -> {
-			diygetanswer.remove(diygetanswer.size()-1);
-			//canvas.markAsDirty();
+		Button button9=new Button("Use GET");
+		button9.addClickListener( e -> {
+			stack.usedGet();
+			y+=50.0;
         });
 		hlayout.addComponents(button5,button6,button7,button8);
 		hlayout2.addComponents(button9);
@@ -193,7 +188,7 @@ public class MyUI extends UI {
 	 */
 	private void initDIYFruit() {
 		reset();
-		stack=new FruitstackGenerator(false,4,false);
+		stack=new FruitstackGenerator(false);
 		y=50.0*stack.getSize()-50.0;
 		fruitcontent=new VerticalLayout();
 		canvas=new Canvas();
@@ -209,7 +204,7 @@ public class MyUI extends UI {
 				//kuva on 400x400px
 				double x=0.0, y=0.0;
 					for(int j=stack.getSize();j>0;j--) {
-					canvas.drawImage2(baseurl+stack.getPic(0, j-1), x, y,50.0,50.0);
+					canvas.drawImage2(baseurl+stack.getPicture(0, j-1), x, y,50.0,50.0);
 					y+=50;
 					}
 				}
@@ -247,7 +242,7 @@ public class MyUI extends UI {
 	 */
 	private void initMultiFruit() {
 		reset();
-		stack=new FruitstackGenerator(true,4,false);
+		stack=new FruitstackGenerator(4);
 		fruitcontent=new VerticalLayout();
 		canvas=new Canvas();
 		canvas.setHeight(50*stack.getSize()+10, Unit.PIXELS);
@@ -263,7 +258,7 @@ public class MyUI extends UI {
 				double x=0.0, y=0.0;
 				for(int i=0;i<4;i++) {
 					for(int j=stack.getSize();j>0;j--) {
-					canvas.drawImage2(baseurl+stack.getPic(i, j-1), x, y,50.0,50.0);
+					canvas.drawImage2(baseurl+stack.getPicture(i, j-1), x, y,50.0,50.0);
 					y+=50;
 					}
 					y=0;
@@ -290,23 +285,6 @@ public class MyUI extends UI {
 		hlayout.addComponents(button1,button2,button3,button4);
 		fruitcontent.addComponents(new Label(stack.getCommand()),canvas,hlayout);
 		content.addComponent(fruitcontent);
-		
-	}
-	/**
-	 * Actually draws the images to canvas after they have been preloaded by the browser.
-	 * Called by CanvasImageLoadListener.
-	 */
-	private void drawImg() {
-		//kuva on 400x400px
-		double x=0.0, y=0.0;
-		for(int i=0;i<4;i++) {
-			for(int j=stack.getSize();j>0;j--) {
-			canvas.drawImage2(baseurl+stack.getPic(i, j-1), x, y,50.0,50.0);
-			y+=50;
-			}
-			y=0;
-			x+=50;
-		}
 		
 	}
 	/**
@@ -366,7 +344,7 @@ public class MyUI extends UI {
 		private static final long serialVersionUID = 1L;
     }
 */
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = false)
+    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }

@@ -22,6 +22,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Except as contained in this notice, the name(s) of the above copyright holders shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Software without prior written authorization. 
  */
 package com.example.villeprojekti;
 
@@ -36,20 +38,21 @@ import java.util.Vector;
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
  * @version 1.0
  */
+  
 public class JoulukuusiGenerator {
 	private static Random rnd=new Random();
 	/**Maps a "number" to boolean array.*/
 	private static Map<Character, boolean[]> MAP =createMap();
 	/**Boolean matrix representing a year.*/
-	private Vector<Vector<Boolean>> binarymatrix;
+	private Vector<boolean[]> binarymatrix;
 	/**Randomly generated year.*/
-	private String year;
+	private int year;
 	/**
 	 * Constructs the problem by generating a random year and
 	 * the boolean matrix that represents it.
 	 */
 	public JoulukuusiGenerator() {
-		year=Integer.toString(rnd.nextInt((LocalDate.now().getYear()-1900))+1900);
+		year=rnd.nextInt((LocalDate.now().getYear()-1900))+1900;
 		binarymatrix=createMatrix(year);
 	}
 /**
@@ -59,7 +62,7 @@ public class JoulukuusiGenerator {
  * @return True/False whether the specified lamp should be on or not.
  */
 	public boolean isOn(int i, int j) {
-		return binarymatrix.get(i).get(j).booleanValue();
+		return binarymatrix.get(i)[j];
 	}
 /**
  * Checks if the answer is correct.
@@ -67,7 +70,7 @@ public class JoulukuusiGenerator {
  * @return True if answer is correct. False otherwise.
  */
 	public boolean isRightAnswer(String answer) {
-		return year.equals(answer.trim());
+		return year==Integer.parseInt(answer.replaceAll("\\s+", ""));
 	}
 /**
  * Creates a hashmap to map decimal numbers to 
@@ -93,7 +96,7 @@ public class JoulukuusiGenerator {
 	 * @param year2 The year the matrix should represent.
 	 * @return Generated boolean matrix.
 	 */
-	private static Vector<Vector<Boolean>> createMatrix(String year2) {
+/*	private static Vector<Vector<Boolean>> createMatrix(String year2) {
 		Vector<Vector<Boolean>> templist=new Vector<Vector<Boolean>>(4,0);
 		for(int i=0;i<4;i++) {
 			//boolean[] luku=MAP.get(year2.substring(i, i+1));
@@ -107,6 +110,22 @@ public class JoulukuusiGenerator {
 		
 		
 		return templist;
+	}
+	*/
+	/**
+	 * Creates the boolean matrix representing binary digits of the randomly generated year.
+	 * @param year2 The year the matrix should represent.
+	 * @return Generated boolean matrix.
+	 */
+	private static Vector<boolean[]> createMatrix(int year){
+		String year2=Integer.toString(year);
+		Vector<boolean[]> templist=new Vector<boolean[]>();
+		for(int i=0;i<4;i++) {
+			boolean[] luku=MAP.get(year2.charAt(i));
+			templist.add(luku);
+		}
+		return templist;
+		
 	}
 
 

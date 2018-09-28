@@ -22,6 +22,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Except as contained in this notice, the name(s) of the above copyright holders shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Software without prior written authorization. 
  */
 
 package com.example.villeprojekti;
@@ -44,41 +46,41 @@ public class FruitstackGenerator {
 	private Vector<Vector<Fruit>> fruitStacks;
 	/**The correct answer stack.*/
 	private Vector<Fruit> correctStack;
-	/**True==multiple choice task, False==DIY task.*/
-	private boolean typeOfTask;
 	/**True==get command is active. False otherwise. */
 	private boolean get;
 	/**Command string to show user to make a guess from.*/
 	private StringBuilder command;
 	/**User inputed command line for DIY task.	 */
 	private StringBuilder answerCommand;
+	/**User inputed command line for DIY+get task.	 */
+	private List<String> answerGetCommand;
 	/**List of all known fruits*/
 	private final static Map<Integer,String> fruitList=createMap();
 	
 	/**
-	 * Construct a new randomized assignment. Type is defined by parameters.
-	 * @param b True==multiple choice task, False==DIY task.
+	 * Construct a new randomized multiple choice assignment.
 	 * @param numOf Number of stacks  wanted.
-	 * @param get True, if get command  is activated. False otherwise.
 	 */
-	public FruitstackGenerator(boolean b, int numOf, boolean get) {
-		typeOfTask=b;
-		this.get=get;
+	public FruitstackGenerator(int numOf) {
 		command=new StringBuilder();
-		if(b) {
-			makeMultipleChoiceTask(rnd.nextInt(7)+2, numOf);
-		}
-		else {
-			makeDiyTask(rnd.nextInt(7)+2);
-		}
+		makeMultipleChoiceTask(rnd.nextInt(7)+2, numOf);
 	}
 	/**
-	 * Returns the specified fruits string to picture.
+	 * Construct a new randomized DIY assignment.
+	 * @param get True, if get command  is activated. False otherwise.
+	 */
+	public FruitstackGenerator(boolean get){
+		this.get=get;
+		command=new StringBuilder();
+		makeDiyTask(rnd.nextInt(7)+2);
+	}
+	/**
+	 * Returns the specified fruit's string to picture.
 	 * @param i Index of vector of stacks.
 	 * @param j Index of fruit in a stack.
 	 * @return String to picture of the fruit requested.
 	 */
-	public String getPic(int i,int j){
+	public String getPicture(int i,int j){
 		return 	fruitStacks.get(i).get(j).getPic();
 	}
 	/**
@@ -95,30 +97,73 @@ public class FruitstackGenerator {
 	public String getCommand() {
 		return command.toString();
 	}
-	public void resetCommand() {
-		command=new StringBuilder();
-	}
-	/**
-	 * Returns the type of the task.
-	 * @return True==multiple choice task, False==DIY task.
-	 */
-	public boolean getTypeOfTask() {
-		return typeOfTask;
-	}
+
 	/**
 	 * Adds an answer string from DIY task.
 	 * @param answer String to add.
 	 */
 	public void addAnswer(String answer) {
-		answerCommand.append(answer);
+		if(get){
+			answerGetCommand.add(answer);
+		}
+		else{
+			answerCommand.append(answer);
+		}
 	}
+	/**
+	* Removes the last element from user supplied
+	* answer after using the GET command.
+	*/
+	public void usedGet(){
+//		if(get){
+			answerGetCommand.remove(answerGetCommand.size()-1);
+//		}
+//		else{}
+	}
+	
+	//*****************************
+	//Correct answer checking methods*
+	//*****************************
+	
+	/**
+	 * Checks if answer is correct, Multiple choice task version.
+	 * @param answer User inputed answer.
+	 * @return True/False
+	 */
+	public boolean isRightAnswer(int answer) {
+		return correctStack.equals(fruitStacks.get(answer));
+	}
+	/**
+	 * Checks if answer is correct, DIY task version.
+	 * Works with DIY + get version.
+	 * @return True/False
+	 */
+	public boolean isRightAnswer() {
+		if(get){
+			answerCommand=new StringBuilder();
+			for(int i=0;i<answerGetCommand.size();i++){
+				answerCommand.append(answerGetCommand.get(i));
+			}
+		}
+		return command.toString().equals(answerCommand.toString());
+	}
+	
+	//**********************
+	//Task generating methods*
+	//**********************
+	
 	/**
 	 * Generates a DIY task.
 	 * @param stackSize Defines how many fruits there are per stack.
 	 */
 	private void makeDiyTask(int stackSize) {
 		correctStack=makeStack(stackSize, true);
-		answerCommand=new StringBuilder();
+		if(get){
+			answerGetCommand=new Vector<String>();
+		}
+		else{
+			answerCommand=new StringBuilder();
+		}
 		fruitStacks=new Vector<Vector<Fruit>>(1,0);
 		fruitStacks.add(new Vector<Fruit>(correctStack));
 		
@@ -165,14 +210,10 @@ public class FruitstackGenerator {
 			case(0):
 				temp.add(new Banana());
 				if(correct) {
-					if(get) {
-						command.append("GET "+fruitList.get(j));
-					}
-					else {
+					//TODO vai olisiko (PUT Banana ) ??
 					command.append("PUT "+fruitList.get(j));
-					}
 					command.append(" ");
-				}
+					}
 				break;
 			case(1):
 				temp.add(new Apple());
@@ -184,14 +225,9 @@ public class FruitstackGenerator {
 			case(2):
 				temp.add(new Lemon());
 				if(correct) {
-					if(get) {
-						command.append("GET "+fruitList.get(j));
-					}
-					else {
 					command.append("PUT "+fruitList.get(j));
-					}
 					command.append(" ");
-				}
+					}
 				break;
 			default:
 				break;
@@ -199,28 +235,8 @@ public class FruitstackGenerator {
 		}
 		return temp;
 	}
-	
 	/**
-	 * Checks if answer is correct, Multiple choice task version.
-	 * @param answer User inputed answer.
-	 * @return True/False
-	 */
-	public boolean isRightAnswer(int answer) {
-		return correctStack.equals(fruitStacks.get(answer));
-	}
-	/**
-	 * Checks if answer is correct, DIY task version.
-	 * @return True/False
-	 */
-	public boolean isRightAnswer() {
-		return command.toString().equals(answerCommand.toString());
-	}
-	
-	public boolean isRightAnswer(Vector<Fruit> answer) {
-		return correctStack.equals(answer);
-	}
-	/**
-	 * 
+	 * HashMap to map numbers to fruits.
 	 * @return
 	 */
 	private static HashMap<Integer, String> createMap() {
