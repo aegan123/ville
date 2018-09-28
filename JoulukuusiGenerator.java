@@ -91,27 +91,7 @@ public class JoulukuusiGenerator {
 		temp.put('9', new boolean[]{true,false,false,true});
 		return temp;
 	}
-	/**
-	 * Creates the boolean matrix representing binary digits of the randomly generated year.
-	 * @param year2 The year the matrix should represent.
-	 * @return Generated boolean matrix.
-	 */
-/*	private static Vector<Vector<Boolean>> createMatrix(String year2) {
-		Vector<Vector<Boolean>> templist=new Vector<Vector<Boolean>>(4,0);
-		for(int i=0;i<4;i++) {
-			//boolean[] luku=MAP.get(year2.substring(i, i+1));
-			boolean[] luku=MAP.get(year2.charAt(i));
-			Vector<Boolean> temp=new Vector<Boolean>(4,0);
-			for(int j=0;j<4;j++) {
-				temp.add(new Boolean(luku[j]));
-			}
-			templist.add(temp);
-		}
-		
-		
-		return templist;
-	}
-	*/
+
 	/**
 	 * Creates the boolean matrix representing binary digits of the randomly generated year.
 	 * @param year2 The year the matrix should represent.
