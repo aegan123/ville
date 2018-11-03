@@ -1,4 +1,4 @@
-/* Excersice generator for ViLLE online learning platform.
+/* Exercise generator for ViLLE online learning platform.
  * Robot and Fruit stacks task generator.
  *
  * Distributed under MIT licence.
@@ -30,7 +30,6 @@ Except as contained in this notice, the name(s) of the above copyright holders s
 package com.example.villeprojekti;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.Vector;
@@ -50,13 +49,9 @@ public class FruitstackGenerator {
 	private boolean get;
 	/**Command string to show user to make a guess from.*/
 	private StringBuilder command;
-	/**User inputed command line for DIY task.	 */
+	/**User inputed command line for DIY tasks.	 */
 //	private StringBuilder answerCommand;
 	private List<String> answerCommand;
-	/**User inputed command line for DIY+get task.	 */
-//	private List<String> answerGetCommand;
-	/**List of all known fruits*/
-//	private final static Map<Integer,String> fruitList=createMap();
 	
 	/**
 	 * Construct a new randomized multiple choice assignment.
@@ -105,13 +100,6 @@ public class FruitstackGenerator {
 	 * @return True if command succeeds. False otherwise.
 	 */
 	public boolean addAnswer(String answer) {
-/*		if(get){
-			answerGetCommand.add(answer);
-		}
-		else{
-			answerCommand.append(answer);
-		}
-*/
 		if(answerCommand.size()<correctStack.size()){
 			answerCommand.add(answer);
 			return true;
@@ -150,15 +138,10 @@ public class FruitstackGenerator {
 	 * @return True/False
 	 */
 	public boolean isRightAnswer() {
-		//if(get){
 			StringBuilder tempAnswerCommand=new StringBuilder();
 			for(String item : answerCommand){
 					tempAnswerCommand.append(item);
 				}
-		//	for(int i=0;i<answerCommand.size();i++){
-		//		tempAnswerCommand.append(answerCommand.get(i));
-		//	}
-		//}
 		return command.toString().equals(tempAnswerCommand.toString());
 	}
 	
@@ -172,13 +155,6 @@ public class FruitstackGenerator {
 	 */
 	private void makeDiyTask(int stackSize) {
 		correctStack=makeStack(stackSize, true);
-	/*	if(get){
-			answerGetCommand=new Vector<String>();
-		}
-		else{
-			answerCommand=new StringBuilder();
-		}
-	*/
 		answerCommand=new Vector<String>();
 		fruitStacks=new Vector<Vector<Fruit>>(1,0);
 		fruitStacks.add(new Vector<Fruit>(correctStack));
@@ -219,11 +195,8 @@ public class FruitstackGenerator {
 	private Vector<Fruit> makeStack(int stackSize, boolean correct){
 		Vector<Fruit> temp=new Vector<Fruit>(stackSize,0);
 		for(int i=0;i<stackSize;i++) {
-			//int j=rnd.nextInt(fruitList.size());
-			
-			//Random num to choose fruit with.
-			int j=rnd.nextInt(3);
-			switch(j) {
+
+			switch(rnd.nextInt(4)) {
 			case(0):
 				temp.add(new Banana());
 				if(correct) {
@@ -249,18 +222,6 @@ public class FruitstackGenerator {
 				break;
 			}
 		}
-		return temp;
-	}
-	/**
-	 * HashMap to map numbers to fruits.
-	 * Not used.
-	 * @return
-	 */
-	private static HashMap<Integer, String> createMap() {
-		HashMap<Integer,String> temp=new HashMap<Integer,String>();
-		temp.put(0, "Banana");
-		temp.put(1, "Apple");
-		temp.put(2, "Lemon");
 		return temp;
 	}
 }

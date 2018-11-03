@@ -1,5 +1,5 @@
-/*Tehtävägeneraattorin osa Ville-ympäristöön.
- * Robotti ja hedelmät. Hedelmien kokoaminen pinoon.
+/* Part of the excersice generator for ViLLE.
+ *  Robot and Fruit stacks task generator.
  * Distributed under MIT licence.
  * MIT License
 
