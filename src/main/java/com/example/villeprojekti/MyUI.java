@@ -1,5 +1,6 @@
-/*Demo proto UI Ville tehtäviin..
- * Uudenvuodenaatto/joulukuusi binäärilukuharjoitus ja Robotti+hedelmäpino
+/* Demo proto UI for ViLLE excersices
+ * Christmas tree/binary number excerisice and Robot and Fruit stacks task excerisice.
+ *
  * Distributed under MIT licence.
  * MIT License
 
@@ -58,7 +59,7 @@ public class MyUI extends UI {
 	private Canvas canvas;
 	/** The generated assignment. */
 	private FruitstackGenerator stack;
-	private JoulukuusiGenerator kuusi;
+	private ChristmasTreeGenerator kuusi;
 	/**Base url to load pictures from. Actual filename will be appended to it later. 
 	 * Change this to correct value or don't use it. */
 	private final static String baseurl="https://liquid-moon.pw/utu/";
@@ -151,21 +152,33 @@ public class MyUI extends UI {
 		});
 		Button button5=new Button("PUT Apple");
 		button5.addClickListener( e -> {
-			stack.addAnswer("PUT Apple ");
+			if(stack.addAnswer("PUT Apple ")){
 			canvas.drawImage2(baseurl+"apple.svg", 50.0, y,50.0,50.0);
 			y-=50.0;
+			}
+			else {
+				 fruitcontent.addComponent(new Label("Can't add more!"));
+			}
         });
 		Button button6=new Button("PUT Banana");
 		button6.addClickListener( e -> {
-			stack.addAnswer("PUT Banana ");
+			if(stack.addAnswer("PUT Banana ")) {
 			canvas.drawImage2(baseurl+"banana.svg", 50.0, y,50.0,50.0);
 			 y-=50.0;
+		}
+		else {
+			 fruitcontent.addComponent(new Label("Can't add more!"));
+		}
         });
 		Button button7=new Button("PUT Lemon");
 		button7.addClickListener( e -> {
-			stack.addAnswer("PUT Lemon ");
+			if(stack.addAnswer("PUT Lemon ")) {
 			 canvas.drawImage2(baseurl+"lemon.svg", 50.0, y,50.0,50.0);
 			 y-=50.0;
+		}
+		else {
+			 fruitcontent.addComponent(new Label("Can't add more!"));
+		}
        });
 		Button button8=new Button("Tarkista");
 		button8.addClickListener( e -> {
@@ -173,8 +186,11 @@ public class MyUI extends UI {
         });
 		Button button9=new Button("Use GET");
 		button9.addClickListener( e -> {
-			stack.usedGet();
+			if(!stack.usedGet()) {
+				fruitcontent.addComponent(new Label("Can't remove more!"));
+			} else {
 			y+=50.0;
+			}
         });
 		hlayout.addComponents(button5,button6,button7,button8);
 		hlayout2.addComponents(button9);
@@ -212,21 +228,33 @@ public class MyUI extends UI {
 		});
 		Button button1=new Button("PUT Apple");
 		button1.addClickListener( e -> {
-           stack.addAnswer("PUT Apple ");
+          if( stack.addAnswer("PUT Apple ")) {
            canvas.drawImage2(baseurl+"apple.svg", 50.0, y,50.0,50.0);
            y-=50.0;
+          }
+			else {
+				 fruitcontent.addComponent(new Label("Can't add more!"));
+			}
         });
 		Button button2=new Button("PUT Banana");
 		button2.addClickListener( e -> {
-			 stack.addAnswer("PUT Banana ");
+			 if(stack.addAnswer("PUT Banana ")) {
 			 canvas.drawImage2(baseurl+"banana.svg", 50.0, y,50.0,50.0);
 			 y-=50.0;
+			 }
+				else {
+					 fruitcontent.addComponent(new Label("Can't add more!"));
+				}
         });
 		Button button3=new Button("PUT Lemon");
 		button3.addClickListener( e -> {
-			 stack.addAnswer("PUT Lemon ");
+			 if(stack.addAnswer("PUT Lemon ")) {
 			 canvas.drawImage2(baseurl+"lemon.svg", 50.0, y,50.0,50.0);
 			 y-=50.0;
+			 }
+				else {
+					 fruitcontent.addComponent(new Label("Can't add more!"));
+				}
         });
 		Button button4=new Button("Tarkista");
 		button4.addClickListener( e -> {
@@ -293,7 +321,7 @@ public class MyUI extends UI {
 	 */
 	private void initKuusi() {
 		reset();
-		kuusi=new JoulukuusiGenerator();
+		kuusi=new ChristmasTreeGenerator();
 		kuusiContent=new HorizontalLayout();
 		canvas=new Canvas();
 		canvas.setHeight(64*4+10, Unit.PIXELS);
