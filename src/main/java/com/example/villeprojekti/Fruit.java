@@ -30,7 +30,7 @@ package com.example.villeprojekti;
 /**
  * Superclass for all types of fruits
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
- * @version 0.1
+ * @version 1.0.1
  */
 public abstract class Fruit {
 	/**Picture of the fruit.*/
@@ -40,7 +40,7 @@ public abstract class Fruit {
 	 * Returns the File object representing the fruit.
 	 * @return File object representing the fruit.
 	 */
-	protected String getPic() {
+	protected String getPicture() {
 		return pic;
 	}
 
