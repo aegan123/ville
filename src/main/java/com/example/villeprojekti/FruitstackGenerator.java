@@ -1,5 +1,6 @@
-/*Tehtävägeneraattori Ville-ympäristöön.
- * Robotti ja hedelmät. Hedelmien kokoaminen pinoon.
+/* Excersice generator for ViLLE online learning platform.
+ * Robot and Fruit stacks task generator.
+ *
  * Distributed under MIT licence.
  * MIT License
 
@@ -37,7 +38,7 @@ import java.util.Vector;
 /**
  * Robot and Fruit stacks task generator.
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
- * @version 1.0
+ * @version 1.0.1
  */
 public class FruitstackGenerator {
 	private static Random rnd=new Random();
@@ -50,9 +51,10 @@ public class FruitstackGenerator {
 	/**Command string to show user to make a guess from.*/
 	private StringBuilder command;
 	/**User inputed command line for DIY task.	 */
-	private StringBuilder answerCommand;
+//	private StringBuilder answerCommand;
+	private List<String> answerCommand;
 	/**User inputed command line for DIY+get task.	 */
-	private List<String> answerGetCommand;
+//	private List<String> answerGetCommand;
 	/**List of all known fruits*/
 //	private final static Map<Integer,String> fruitList=createMap();
 	
@@ -80,7 +82,7 @@ public class FruitstackGenerator {
 	 * @return String to picture of the fruit requested.
 	 */
 	public String getPicture(int i,int j){
-		return 	fruitStacks.get(i).get(j).getPic();
+		return 	fruitStacks.get(i).get(j).getPicture();
 	}
 	/**
 	 * Returns the size of the fruit stack.
@@ -100,24 +102,34 @@ public class FruitstackGenerator {
 	/**
 	 * Adds an answer string from DIY task.
 	 * @param answer String to add.
+	 * @return True if command succeeds. False otherwise.
 	 */
-	public void addAnswer(String answer) {
-		if(get){
+	public boolean addAnswer(String answer) {
+/*		if(get){
 			answerGetCommand.add(answer);
 		}
 		else{
 			answerCommand.append(answer);
 		}
+*/
+		if(answerCommand.size()<correctStack.size()){
+			answerCommand.add(answer);
+			return true;
+		}
+		return false;
 	}
 	/**
 	* Removes the last element from user supplied
 	* answer after using the GET command.
 	* Does nothing if get-command is not active.
+	* @return True if get-command succeeds. False otherwise.
 	*/
-	public void usedGet(){
-		if(get){
-			answerGetCommand.remove(answerGetCommand.size()-1);
-		}
+	public boolean usedGet(){
+			if(get && answerCommand.size()>0){
+					answerCommand.remove(answerCommand.size()-1);
+					return true;
+			}
+		return false;
 	}
 	
 	//*****************************
@@ -138,13 +150,16 @@ public class FruitstackGenerator {
 	 * @return True/False
 	 */
 	public boolean isRightAnswer() {
-		if(get){
-			answerCommand=new StringBuilder();
-			for(int i=0;i<answerGetCommand.size();i++){
-				answerCommand.append(answerGetCommand.get(i));
-			}
-		}
-		return command.toString().equals(answerCommand.toString());
+		//if(get){
+			StringBuilder tempAnswerCommand=new StringBuilder();
+			for(String item : answerCommand){
+					tempAnswerCommand.append(item);
+				}
+		//	for(int i=0;i<answerCommand.size();i++){
+		//		tempAnswerCommand.append(answerCommand.get(i));
+		//	}
+		//}
+		return command.toString().equals(tempAnswerCommand.toString());
 	}
 	
 	//**********************
@@ -157,12 +172,14 @@ public class FruitstackGenerator {
 	 */
 	private void makeDiyTask(int stackSize) {
 		correctStack=makeStack(stackSize, true);
-		if(get){
+	/*	if(get){
 			answerGetCommand=new Vector<String>();
 		}
 		else{
 			answerCommand=new StringBuilder();
 		}
+	*/
+		answerCommand=new Vector<String>();
 		fruitStacks=new Vector<Vector<Fruit>>(1,0);
 		fruitStacks.add(new Vector<Fruit>(correctStack));
 		
