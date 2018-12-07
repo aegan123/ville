@@ -29,7 +29,6 @@ Except as contained in this notice, the name(s) of the above copyright holders s
 package com.example.villeprojekti;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
