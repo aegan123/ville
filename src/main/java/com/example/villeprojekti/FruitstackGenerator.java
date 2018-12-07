@@ -47,6 +47,8 @@ public class FruitstackGenerator {
 	private Vector<Fruit> correctStack;
 	/**True==get command is active. False otherwise. */
 	private boolean get;
+	/** Get can be only used once. True== get can be used. False otherwise. */
+	private boolean canUseGet;
 	/**Command string to show user to make a guess from.*/
 	private StringBuilder command;
 	/**User inputed command line for DIY tasks.	 */
@@ -67,6 +69,7 @@ public class FruitstackGenerator {
 	 */
 	public FruitstackGenerator(boolean get){
 		this.get=get;
+		canUseGet=true;
 		command=new StringBuilder();
 		makeDiyTask(rnd.nextInt(7)+2);
 	}
@@ -137,10 +140,11 @@ public class FruitstackGenerator {
 	* @return True if get-command succeeds. False otherwise.
 	*/
 	public boolean usedGet(){
-			if(get && answerCommand.size()>0){
+			if(canUseGet && (get && answerCommand.size()>0)){
 					answerCommand.remove(answerCommand.size()-1);
 					answerStack.remove((answerStack.size()-1));
 					//answerStack.trimToSize();
+					canUseGet=false;
 					return true;
 			}
 		return false;
