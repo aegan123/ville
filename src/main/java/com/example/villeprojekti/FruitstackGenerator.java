@@ -100,20 +100,6 @@ public class FruitstackGenerator {
 	}
 
 	/**
-	 * Adds an answer string from DIY task.
-	 * @param answer String to add.
-	 * @return True if command succeeds. False otherwise.
-	 */
-	/*
-	public boolean addAnswer(String answer) {
-		if(answerCommand.size()<correctStack.size()){
-			answerCommand.add(answer);
-			return true;
-		}
-		return false;
-	}
-	*/
-	/**
 	 * Adds user inputed answer.
 	 * @param choice Which fruit to add. 0=Banana, 1= Apple, 2=Lemon.
 	 * @return True if command succeeds. False otherwise.
