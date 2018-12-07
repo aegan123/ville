@@ -208,7 +208,7 @@ public class FruitstackGenerator {
 		int i=1;
 		while(i<numOf){
 			Vector<Fruit> temp=makeStack(stackSize, false);
-			if(temp.equals(correctStack)) {
+			if(temp.equals(correctStack) || isSame(temp)) {
 				continue;
 			}
 			else {
@@ -220,6 +220,19 @@ public class FruitstackGenerator {
 		Collections.shuffle(fruitStacks);
 	}
 	
+	/**
+	 * Checks if generated fruit stack is the same as any previous one.
+	 * @param temp Stack to test.
+	 * @return True/False
+	 */
+	private boolean isSame(Vector<Fruit> temp) {
+		for(int i=0;i<fruitStacks.size();i++) {
+			if(temp.equals(fruitStacks.get(i))) {
+				return true;
+			}
+		}
+		return false;
+}
 	/**
 	 * Generates a random stack of fruits.
 	 * Also generates the "command line" for the multiple choice task.
