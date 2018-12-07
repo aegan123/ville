@@ -1,4 +1,4 @@
-/* Part of the excersice generator for ViLLE.
+/* Part of the exercise generator for ViLLE.
  *  Robot and Fruit stacks task generator.
  * Distributed under MIT licence.
  * MIT License
