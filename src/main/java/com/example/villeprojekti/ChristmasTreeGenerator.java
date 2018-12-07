@@ -1,4 +1,4 @@
-/* Excersice generator for ViLLE online learning platform.
+/* Exercise generator for ViLLE online learning platform.
  * Christmas tree/binary number excerisice.
  *
  * Distributed under MIT licence.
@@ -29,21 +29,22 @@ Except as contained in this notice, the name(s) of the above copyright holders s
 package com.example.villeprojekti;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
 /**
- * Christmas tree/binary number excerisice.
+ * Christmas tree/binary number exercise.
  * @author Juhani Vähä-Mäkilä, 2018. Licensed under MIT license.
- * @version 1.0.1
+ * @version 1.0.2
  */
   
 public class ChristmasTreeGenerator {
 	private static Random rnd=new Random();
 	/**Maps a "number" to boolean array.*/
-	private static Map<Character, boolean[]> MAP =createMap();
+	private static final Map<Character, boolean[]> MAP =createMap();
 	/**Boolean matrix representing a year.*/
 	private Vector<boolean[]> binarymatrix;
 	/**Randomly generated year.*/
@@ -71,7 +72,11 @@ public class ChristmasTreeGenerator {
  * @return True if answer is correct. False otherwise.
  */
 	public boolean isRightAnswer(String answer) {
-		return year==Integer.parseInt(answer.replaceAll("\\s+", ""));
+		if(answer.chars().allMatch(Character::isDigit)) {
+			return year==Integer.parseInt(answer.replaceAll("\\s+", ""));
+		}else {
+			return false;
+		}
 	}
 /**
  * Creates a hashmap to map decimal numbers to 
@@ -102,8 +107,7 @@ public class ChristmasTreeGenerator {
 		String year2=Integer.toString(year);
 		Vector<boolean[]> templist=new Vector<boolean[]>();
 		for(int i=0;i<4;i++) {
-			boolean[] luku=MAP.get(year2.charAt(i));
-			templist.add(luku);
+			templist.add(MAP.get(year2.charAt(i)));
 		}
 		return templist;
 		
