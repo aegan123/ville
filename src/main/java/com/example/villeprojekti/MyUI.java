@@ -57,12 +57,15 @@ import com.vaadin.ui.VerticalLayout;
 public class MyUI extends UI {
 	/** "html5" canvas to draw images to.  */
 	private Canvas canvas;
+	private Canvas canvas2;
 	/** The generated assignment. */
 	private FruitstackGenerator stack;
 	private ChristmasTreeGenerator kuusi;
 	/**Base url to load pictures from. Actual filename will be appended to it later. 
 	 * Change this to correct value or don't use it. */
-	private final static String baseurl="https://liquid-moon.pw/utu/";
+	//private final static String baseurl="https://liquid-moon.pw/utu/";
+	private final static String baseurl="http://nightbreaker.fea.st/utu/";
+	private final String[]urls= {baseurl+"banana.svg",baseurl+"apple.svg",baseurl+"lemon.svg"};
 	/** Layout components used.	 */
 	private VerticalLayout mainContent,fruitcontent,content;
 	private HorizontalLayout kuusiContent;
@@ -104,7 +107,9 @@ public class MyUI extends UI {
      });
 	buttons.addComponents(joulukuusi,fruit,fruit2,fruit3,empty);
 	content=new VerticalLayout();
-	mainContent.addComponents(buttons,content);
+	HorizontalLayout hlayout=new HorizontalLayout();
+	hlayout.addComponent(new Label("Näillä napeilla valitaa haluttu tehtävä tai resetoidaan koko näkymä."));
+	mainContent.addComponents(hlayout,buttons,content);
 	setContent(mainContent);
     }
 
@@ -122,38 +127,95 @@ public class MyUI extends UI {
 			}
 	}
 	/**
+	 * Redraws answer stack to canvas after using get-command.
+	 * For demo purposes only.
+	 */
+	private void reDrawAnswer() {
+		//kuva on 400x400px
+		canvas2.clear();
+		canvas2.loadImages(urls);
+		canvas2.addImageLoadListener(new CanvasImageLoadListener() {
+			
+			@Override
+			public void imagesLoaded() {
+				double x=0.0;//, 
+				y=50.0*stack.getSize(true)-50.0;
+				for(int j=0;j<stack.getSize(false);j++) {
+					canvas2.drawImage2(baseurl+stack.getPicture(1, j), x, y,50.0,50.0);
+					y-=50;
+					
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					}
+				
+			}
+		});
+			
+		
+	}
+	/**
+	 * Clears the answer canvas to restart the assignment.
+	 * Does not generate a new assignment.
+	 */
+	private void startOver() {
+		y=50.0*stack.getSize(true)-50.0;
+		canvas2.clear();
+		canvas2.loadImages(urls);
+		stack.startOver();
+		
+	}
+	/**
 	 * Initiates DIY fruitstack + GET visualization.
 	 * For demo purposes only.
 	 */
 	private void initDIYFruitGet() {
 		reset();
 		stack=new FruitstackGenerator(true);
-		y=50.0*stack.getSize()-50.0;
+		y=50.0*stack.getSize(true)-50.0;
 		fruitcontent=new VerticalLayout();
 		canvas=new Canvas();
-		canvas.setHeight(50*stack.getSize()+10, Unit.PIXELS);
-		canvas.setWidth(500, Unit.PIXELS);
+		canvas2=new Canvas();
+		canvas.setHeight(50*stack.getSize(true)+10, Unit.PIXELS);
+		canvas.setWidth(70, Unit.PIXELS);
+		canvas2.setHeight(50*stack.getSize(true)+10, Unit.PIXELS);
+		canvas2.setWidth(500, Unit.PIXELS);
 		HorizontalLayout hlayout=new HorizontalLayout();
 		HorizontalLayout hlayout2=new HorizontalLayout();
-        String[]urls= {baseurl+"banana.svg",baseurl+"apple.svg",baseurl+"lemon.svg"};
-		canvas.loadImages(urls);
+		HorizontalLayout hlayout3=new HorizontalLayout();
+        canvas.loadImages(urls);
+		canvas2.loadImages(urls);
 		canvas.addImageLoadListener(new CanvasImageLoadListener() {
 			
 			@Override
 			public void imagesLoaded() {
 				//kuva on 400x400px
 				double x=0.0, y=0.0;
-					for(int j=stack.getSize();j>0;j--) {
+					for(int j=stack.getSize(true);j>0;j--) {
 					canvas.drawImage2(baseurl+stack.getPicture(0, j-1), x, y,50.0,50.0);
 					y+=50;
+					
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					}
 				}
 				
 		});
 		Button button5=new Button("PUT Apple");
 		button5.addClickListener( e -> {
-			if(stack.addAnswer("PUT Apple ")){
-			canvas.drawImage2(baseurl+"apple.svg", 50.0, y,50.0,50.0);
+			//if(stack.addAnswer("PUT Apple ")){
+			if(stack.addAnswer(1)){
+			//canvas2.drawImage2(baseurl+"apple.svg", 0.0, y,50.0,50.0);
+				canvas2.drawImage2(urls[1], 0.0, y,50.0,50.0);
 			y-=50.0;
 			}
 			else {
@@ -162,8 +224,10 @@ public class MyUI extends UI {
         });
 		Button button6=new Button("PUT Banana");
 		button6.addClickListener( e -> {
-			if(stack.addAnswer("PUT Banana ")) {
-			canvas.drawImage2(baseurl+"banana.svg", 50.0, y,50.0,50.0);
+			//if(stack.addAnswer("PUT Banana ")) {
+			if(stack.addAnswer(0)) {
+			//canvas2.drawImage2(baseurl+"banana.svg", 0.0, y,50.0,50.0);
+				canvas2.drawImage2(urls[0], 0.0, y,50.0,50.0);
 			 y-=50.0;
 		}
 		else {
@@ -172,8 +236,10 @@ public class MyUI extends UI {
         });
 		Button button7=new Button("PUT Lemon");
 		button7.addClickListener( e -> {
-			if(stack.addAnswer("PUT Lemon ")) {
-			 canvas.drawImage2(baseurl+"lemon.svg", 50.0, y,50.0,50.0);
+			//if(stack.addAnswer("PUT Lemon ")) {
+			if(stack.addAnswer(2)) {
+			 //canvas2.drawImage2(baseurl+"lemon.svg", 0.0, y,50.0,50.0);
+				canvas2.drawImage2(urls[2], 0.0, y,50.0,50.0);
 			 y-=50.0;
 		}
 		else {
@@ -189,15 +255,22 @@ public class MyUI extends UI {
 			if(!stack.usedGet()) {
 				fruitcontent.addComponent(new Label("Can't remove more!"));
 			} else {
+				reDrawAnswer();
 			y+=50.0;
 			}
         });
+		Button button10=new Button("Start over");
+		button10.addClickListener( e -> {
+           startOver();
+        });
 		hlayout.addComponents(button5,button6,button7,button8);
-		hlayout2.addComponents(button9);
-		fruitcontent.addComponents(canvas,hlayout,hlayout2);
+		hlayout2.addComponents(button9,button10);
+		hlayout3.addComponents(canvas,canvas2);
+		fruitcontent.addComponents(hlayout3,hlayout,hlayout2);
 		content.addComponent(fruitcontent);
 		
 	}
+
 	/**
 	 * Initiates DIY fruitstack visualization.
 	 * For demo purposes only.
@@ -205,32 +278,45 @@ public class MyUI extends UI {
 	private void initDIYFruit() {
 		reset();
 		stack=new FruitstackGenerator(false);
-		y=50.0*stack.getSize()-50.0;
+		y=50.0*stack.getSize(true)-50.0;
 		fruitcontent=new VerticalLayout();
 		canvas=new Canvas();
-		canvas.setHeight(50*stack.getSize()+10, Unit.PIXELS);
-		canvas.setWidth(500, Unit.PIXELS);
+		canvas2=new Canvas();
+		canvas.setHeight(50*stack.getSize(true)+10, Unit.PIXELS);
+		canvas.setWidth(70, Unit.PIXELS);
+		canvas2.setHeight(50*stack.getSize(true)+10, Unit.PIXELS);
+		canvas2.setWidth(500, Unit.PIXELS);
 		HorizontalLayout hlayout=new HorizontalLayout();
-        String[]urls= {baseurl+"banana.svg",baseurl+"apple.svg",baseurl+"lemon.svg"};
+		HorizontalLayout hlayout2=new HorizontalLayout();
 		canvas.loadImages(urls);
+		canvas2.loadImages(urls);
 		canvas.addImageLoadListener(new CanvasImageLoadListener() {
 			
 			@Override
 			public void imagesLoaded() {
 				//kuva on 400x400px
 				double x=0.0, y=0.0;
-					for(int j=stack.getSize();j>0;j--) {
+					for(int j=stack.getSize(true);j>0;j--) {
 					canvas.drawImage2(baseurl+stack.getPicture(0, j-1), x, y,50.0,50.0);
 					y+=50;
+					
+					try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					}
 				}
 				
 		});
 		Button button1=new Button("PUT Apple");
 		button1.addClickListener( e -> {
-          if( stack.addAnswer("PUT Apple ")) {
-           canvas.drawImage2(baseurl+"apple.svg", 50.0, y,50.0,50.0);
-           y-=50.0;
+          //if( stack.addAnswer("PUT Apple ")) {
+			if(stack.addAnswer(1)) {
+				canvas2.drawImage2(urls[1], 50.0, y,50.0,50.0);
+				y-=50.0;
           }
 			else {
 				 fruitcontent.addComponent(new Label("Can't add more!"));
@@ -238,8 +324,9 @@ public class MyUI extends UI {
         });
 		Button button2=new Button("PUT Banana");
 		button2.addClickListener( e -> {
-			 if(stack.addAnswer("PUT Banana ")) {
-			 canvas.drawImage2(baseurl+"banana.svg", 50.0, y,50.0,50.0);
+			 //if(stack.addAnswer("PUT Banana ")) {
+			if(stack.addAnswer(0)) {
+			 canvas2.drawImage2(urls[0], 50.0, y,50.0,50.0);
 			 y-=50.0;
 			 }
 				else {
@@ -248,8 +335,9 @@ public class MyUI extends UI {
         });
 		Button button3=new Button("PUT Lemon");
 		button3.addClickListener( e -> {
-			 if(stack.addAnswer("PUT Lemon ")) {
-			 canvas.drawImage2(baseurl+"lemon.svg", 50.0, y,50.0,50.0);
+			 //if(stack.addAnswer("PUT Lemon ")) {
+			if(stack.addAnswer(2)) {
+			 canvas2.drawImage2(urls[2], 50.0, y,50.0,50.0);
 			 y-=50.0;
 			 }
 				else {
@@ -260,24 +348,30 @@ public class MyUI extends UI {
 		button4.addClickListener( e -> {
            fruitcontent.addComponent(new Label(Boolean.toString(stack.isRightAnswer())));
         });
-		hlayout.addComponents(button1,button2,button3,button4);
-		fruitcontent.addComponents(canvas,hlayout);
+		Button button5=new Button("Start over");
+		button5.addClickListener( e -> {
+           startOver();
+        });
+		hlayout.addComponents(button1,button2,button3,button4,button5);
+		hlayout2.addComponents(canvas,canvas2);
+		fruitcontent.addComponents(hlayout2,hlayout);
 		content.addComponent(fruitcontent);
 	}
+
 	/**
 	 * Initiates multiple choice fruitstack visualization.
 	 * For demo purposes only.
+	 * @throws InterruptedException 
 	 */
-	private void initMultiFruit() {
+	private void initMultiFruit(){
 		reset();
 		stack=new FruitstackGenerator(4);
 		fruitcontent=new VerticalLayout();
 		canvas=new Canvas();
-		canvas.setHeight(50*stack.getSize()+10, Unit.PIXELS);
+		canvas.setHeight(50*stack.getSize(true)+10, Unit.PIXELS);
 		canvas.setWidth(500, Unit.PIXELS);
 		HorizontalLayout hlayout=new HorizontalLayout();
-        String[]urls= {baseurl+"banana.svg",baseurl+"apple.svg",baseurl+"lemon.svg"};
-		canvas.loadImages(urls);
+        canvas.loadImages(urls);
 		canvas.addImageLoadListener(new CanvasImageLoadListener() {
 			
 			@Override
@@ -285,9 +379,17 @@ public class MyUI extends UI {
 				//kuva on 400x400px
 				double x=0.0, y=0.0;
 				for(int i=0;i<4;i++) {
-					for(int j=stack.getSize();j>0;j--) {
-					canvas.drawImage2(baseurl+stack.getPicture(i, j-1), x, y,50.0,50.0);
-					y+=50;
+					for(int j=stack.getSize(true)-1;j>=0;j--) {
+						canvas.drawImage2(baseurl+stack.getPicture(i, j), x, y,50.0,50.0);
+						y+=50;
+						
+						try {
+							Thread.sleep(50);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 					}
 					y=0;
 					x+=50;
@@ -325,7 +427,6 @@ public class MyUI extends UI {
 		kuusiContent=new HorizontalLayout();
 		canvas=new Canvas();
 		canvas.setHeight(64*4+10, Unit.PIXELS);
-		
 		String[]urls= {baseurl+"light_off.svg",baseurl+"light_on.svg"};
 		canvas.loadImages(urls);
 		canvas.addImageLoadListener(new CanvasImageLoadListener() {
@@ -372,7 +473,7 @@ public class MyUI extends UI {
 		private static final long serialVersionUID = 1L;
     }
 */
-    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
+    @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = false)
     @VaadinServletConfiguration(ui = MyUI.class, productionMode = false)
     public static class MyUIServlet extends VaadinServlet {
     }
