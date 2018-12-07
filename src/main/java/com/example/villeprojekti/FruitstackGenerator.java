@@ -50,12 +50,12 @@ public class FruitstackGenerator {
 	/**Command string to show user to make a guess from.*/
 	private StringBuilder command;
 	/**User inputed command line for DIY tasks.	 */
-//	private StringBuilder answerCommand;
+	private Vector<Fruit> answerStack;
 	private List<String> answerCommand;
 	
 	/**
 	 * Construct a new randomized multiple choice assignment.
-	 * @param numOf Number of stacks  wanted.
+	 * @param numOf Number of stacks wanted.
 	 */
 	public FruitstackGenerator(int numOf) {
 		command=new StringBuilder();
@@ -63,7 +63,7 @@ public class FruitstackGenerator {
 	}
 	/**
 	 * Construct a new randomized DIY assignment.
-	 * @param get True, if get command  is activated. False otherwise.
+	 * @param get True, if get command is activated. False otherwise.
 	 */
 	public FruitstackGenerator(boolean get){
 		this.get=get;
@@ -81,10 +81,15 @@ public class FruitstackGenerator {
 	}
 	/**
 	 * Returns the size of the fruit stack.
+	 * @param correct True returns the size of the correct answer stack. False returns the size of the answer stack.
 	 * @return The size of a fruit stack.
 	 */
-	public int getSize() {
-		return correctStack.size();
+	public int getSize(boolean correct) {
+		if(correct) {
+			return correctStack.size();
+		}else {
+			return answerStack.size();
+		}
 	}
 	/**
 	 * Returns the string representing the command the robot used.
@@ -99,12 +104,45 @@ public class FruitstackGenerator {
 	 * @param answer String to add.
 	 * @return True if command succeeds. False otherwise.
 	 */
+	/*
 	public boolean addAnswer(String answer) {
 		if(answerCommand.size()<correctStack.size()){
 			answerCommand.add(answer);
 			return true;
 		}
 		return false;
+	}
+	*/
+	/**
+	 * Adds user inputed answer.
+	 * @param choice Which fruit to add. 0=Banana, 1= Apple, 2=Lemon.
+	 * @return True if command succeeds. False otherwise.
+	 */
+	public boolean addAnswer(int choice) {
+		if(answerCommand.size()<correctStack.size()) {
+			switch(choice) {
+			case(0):
+				//new banana
+				answerCommand.add("PUT Banana ");
+				answerStack.add(new Banana());
+				break;
+			case(1):
+				//new apple
+				answerCommand.add("PUT Apple ");
+				answerStack.add(new Apple());
+				break;
+			case(2):
+				//new lemon
+				answerCommand.add("PUT Lemon ");
+				answerStack.add(new Lemon());
+				break;
+			default:
+				return false;
+			}
+			return true;
+		}
+		return false;
+		
 	}
 	/**
 	* Removes the last element from user supplied
@@ -115,9 +153,20 @@ public class FruitstackGenerator {
 	public boolean usedGet(){
 			if(get && answerCommand.size()>0){
 					answerCommand.remove(answerCommand.size()-1);
+					answerStack.remove((answerStack.size()-1));
+					//answerStack.trimToSize();
 					return true;
 			}
 		return false;
+	}
+	/**
+	 * Used when starting over.
+	 * Only previously inputed answers are cleared.
+	 * Previously generated correct answer is kept.
+	 */
+	public void startOver() {
+			answerCommand.clear();
+			answerStack.clear();
 	}
 	
 	//*****************************
@@ -154,10 +203,10 @@ public class FruitstackGenerator {
 	 * @param stackSize Defines how many fruits there are per stack.
 	 */
 	private void makeDiyTask(int stackSize) {
-		correctStack=makeStack(stackSize, true);
 		answerCommand=new Vector<String>();
 		fruitStacks=new Vector<Vector<Fruit>>(1,0);
-		fruitStacks.add(new Vector<Fruit>(correctStack));
+		fruitStacks.add(new Vector<Fruit>(correctStack=makeStack(stackSize, true)));
+		fruitStacks.add(answerStack=new Vector<Fruit>());
 		
 	}
 /**
@@ -196,26 +245,23 @@ public class FruitstackGenerator {
 		Vector<Fruit> temp=new Vector<Fruit>(stackSize,0);
 		for(int i=0;i<stackSize;i++) {
 
-			switch(rnd.nextInt(4)) {
+			switch(rnd.nextInt(3)) {
 			case(0):
 				temp.add(new Banana());
 				if(correct) {
-					command.append("PUT Banana");
-					command.append(" ");
+					command.append("PUT Banana ");
 					}
 				break;
 			case(1):
 				temp.add(new Apple());
-				if( correct) {
-					command.append("PUT Apple");
-					command.append(" ");
+				if(correct) {
+					command.append("PUT Apple ");
 				}
 				break;
 			case(2):
 				temp.add(new Lemon());
 				if(correct) {
-					command.append("PUT Lemon");
-					command.append(" ");
+					command.append("PUT Lemon ");
 					}
 				break;
 			default:
